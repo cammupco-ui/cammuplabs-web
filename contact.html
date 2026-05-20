@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — CAMMUPLABS</title>
+  <meta name="description" content="Talk to CAMMUPLABS — investors, schools, and partners welcome.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anta&family=Inter:wght@300;400;500;600&family=Alexandria:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FDF7F1; --ink: #211C19; --pink: #FF0051;
+      --navy: #1E2A44; --muted: #6B6159; --border: #EDE5DB;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Alexandria', sans-serif; background: var(--cream); color: var(--ink); min-width: 320px; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 68px; background: rgba(253,247,241,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    #nav-inner {
+      max-width: 1440px; min-width: 320px; margin: 0 auto; height: 100%;
+      display: flex; align-items: center; padding: 0 80px; gap: 32px;
+    }
+    .nav-logo { flex-shrink: 0; line-height: 0; text-decoration: none; }
+    .nav-logo svg { color: var(--ink); }
+    .nav-links { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; text-decoration: none; color: var(--ink);
+      opacity: 0.55; transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+    #lang-btn {
+      background: none; border: none; cursor: pointer; font-size: 12px;
+      font-weight: 500; color: var(--ink); display: flex; gap: 3px; align-items: center;
+    }
+    #lang-btn .sep { color: var(--muted); }
+    #lang-btn .active { font-weight: 700; }
+    #lang-btn .inactive { color: var(--muted); }
+    .nav-cta {
+      padding: 8px 20px; background: var(--pink); color: white;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.82; }
+    #hamburger {
+      display: none; width: 44px; height: 44px; border-radius: 12px;
+      background: var(--ink); border: none; cursor: pointer;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      flex-shrink: 0; transition: opacity 0.15s;
+    }
+    #hamburger:hover { opacity: 0.78; }
+    #hamburger span { display: block; width: 20px; height: 2px; background: white; border-radius: 2px; transition: all 0.25s; }
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #mobile-menu {
+      position: fixed; top: 68px; right: 16px; z-index: 99;
+      background: var(--ink); border-radius: 20px;
+      padding: 10px; display: flex; flex-direction: column; gap: 6px;
+      min-width: 200px; opacity: 0; pointer-events: none;
+      transform: translateY(-8px) scale(0.97); transform-origin: top right;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+    .mob-link {
+      display: block; padding: 12px 20px; background: white; color: var(--ink);
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center; transition: opacity 0.15s;
+    }
+    .mob-link:hover { opacity: 0.72; }
+    .mob-cta {
+      display: block; padding: 12px 20px; background: var(--pink); color: white;
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center; margin-top: 4px; transition: opacity 0.15s;
+    }
+    .mob-cta:hover { opacity: 0.82; }
+
+    @media (max-width: 1023px) {
+      #nav-inner { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      #hamburger { display: flex; }
+    }
+    @media (max-width: 479px) { #nav-inner { padding: 0 16px; } }
+
+    /* ── PAGE ── */
+    .page-body { padding-top: 68px; }
+
+    /* Main contact section */
+    .sec-contact {
+      padding: 120px 80px;
+      background: var(--cream);
+      min-height: calc(100vh - 68px);
+      display: flex; align-items: center;
+    }
+    .sec-contact-inner {
+      max-width: 1440px; margin: 0 auto; width: 100%;
+      display: flex; gap: 100px; align-items: flex-start;
+    }
+    .ct-left { flex: 1; max-width: 480px; }
+    .pg-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--pink); margin-bottom: 24px;
+    }
+    .pg-hl {
+      font-family: 'Anta', 'Inter', sans-serif;
+      font-size: clamp(32px, 4vw, 60px); font-weight: 400;
+      line-height: 1.08; letter-spacing: -0.01em; color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .ct-body {
+      font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 40px;
+    }
+    .btn-primary {
+      display: inline-block; padding: 14px 32px;
+      background: var(--pink); color: white;
+      border-radius: 100px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.84; }
+
+    /* Contact cards */
+    .ct-right { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+    .ct-card {
+      padding: 22px 26px; border: 1px solid var(--border); border-radius: 16px;
+      background: white; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden;
+    }
+    .ct-card:hover { border-color: var(--ink); transform: translateX(4px); box-shadow: 0 4px 16px rgba(33,28,25,0.07); }
+    .ct-role { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); margin-bottom: 6px; }
+    .ct-email { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; font-family: 'Inter', monospace; }
+    .ct-desc { font-size: 12px; color: var(--muted); }
+    .ct-copy { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: var(--muted); opacity: 0; transition: opacity 0.15s; }
+    .ct-card:hover .ct-copy { opacity: 1; }
+
+    /* Footer */
+    footer { padding: 40px 80px; background: var(--cream); border-top: 1px solid var(--border); }
+    .footer-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-right { text-align: right; }
+    .footer-copy { font-size: 12px; color: #B5ADA4; }
+    .footer-tag { font-size: 11px; color: #C8C0B8; margin-top: 4px; }
+
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .sec-contact { padding: 80px 40px; align-items: flex-start; }
+      .sec-contact-inner { flex-direction: column; gap: 56px; }
+      .ct-left { max-width: 100%; }
+      footer { padding: 32px 40px; }
+    }
+    @media (max-width: 479px) {
+      .sec-contact { padding: 60px 20px; }
+      footer { padding: 28px 20px; }
+    }
+
+    /* Lang */
+    .kr { display: none; }
+    body.is-kr .en { display: none; }
+    body.is-kr .kr { display: inline; }
+    body.is-kr p.kr, body.is-kr div.kr { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<header id="nav">
+  <div id="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="90" height="18" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="currentColor"/>
+        <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="currentColor"/>
+        <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+      </svg>
+    </a>
+    <nav class="nav-links">
+      <a href="about.html"><span class="en">About</span><span class="kr">회사소개</span></a>
+      <a href="vision.html"><span class="en">Vision</span><span class="kr">비전</span></a>
+      <a href="products.html"><span class="en">Products</span><span class="kr">제품</span></a>
+    </nav>
+    <div class="nav-right">
+      <button id="lang-btn" onclick="toggleLang()">
+        <span id="en-lbl" class="active">EN</span>
+        <span class="sep">/</span>
+        <span id="kr-lbl" class="inactive">KR</span>
+      </button>
+      <a href="contact.html" class="nav-cta active">
+        <span class="en">Get in touch</span><span class="kr">문의하기</span>
+      </a>
+      <button id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu">
+  <a href="about.html" class="mob-link"><span class="en">About</span><span class="kr">회사소개</span></a>
+  <a href="vision.html" class="mob-link"><span class="en">Vision</span><span class="kr">비전</span></a>
+  <a href="products.html" class="mob-link"><span class="en">Products</span><span class="kr">제품</span></a>
+  <a href="contact.html" class="mob-cta"><span class="en">Get in touch</span><span class="kr">문의하기</span></a>
+</div>
+
+<!-- ══ PAGE ══════════════════════════════════════════════════════════ -->
+<div class="page-body">
+
+  <section class="sec-contact">
+    <div class="sec-contact-inner">
+
+      <!-- Left: headline + body + CTA -->
+      <div class="ct-left">
+        <p class="pg-tag"><span class="en">CONTACT</span><span class="kr">연락처</span></p>
+        <h1 class="pg-hl">
+          <span class="en">Let's build the next conversation.</span>
+          <span class="kr">다음 대화를 함께 만들어요.</span>
+        </h1>
+        <p class="ct-body">
+          <span class="en">We're talking with investors, schools, and partners in Canada and Korea. If you believe that the right question can change a conversation — and that conversation can change everything — we want to hear from you.</span>
+          <span class="kr">캐나다와 한국의 투자자, 학교, 파트너들과 이야기를 나누고 있습니다. 올바른 질문이 대화를 바꿀 수 있고, 대화가 모든 것을 바꿀 수 있다고 믿으신다면 — 꼭 연락해 주세요.</span>
+        </p>
+        <a href="#" class="btn-primary">
+          <span class="en">Book a 30-min call →</span>
+          <span class="kr">30분 미팅 예약 →</span>
+        </a>
+      </div>
+
+      <!-- Right: contact cards -->
+      <div class="ct-right">
+        <div class="ct-card" onclick="copyEmail('invest@cammup.com', this)">
+          <div class="ct-role"><span class="en">For Investors</span><span class="kr">투자 문의</span></div>
+          <div class="ct-email">invest@cammup.com</div>
+          <div class="ct-desc"><span class="en">Funding &amp; partnerships</span><span class="kr">투자 및 파트너십</span></div>
+          <span class="ct-copy"><span class="en">Copy</span><span class="kr">복사</span></span>
+        </div>
+        <div class="ct-card" onclick="copyEmail('partners@cammup.com', this)">
+          <div class="ct-role"><span class="en">For Schools &amp; Partners</span><span class="kr">학교·파트너 문의</span></div>
+          <div class="ct-email">partners@cammup.com</div>
+          <div class="ct-desc"><span class="en">Schools, pilots &amp; B2B</span><span class="kr">학교, 파일럿 및 B2B</span></div>
+          <span class="ct-copy"><span class="en">Copy</span><span class="kr">복사</span></span>
+        </div>
+        <div class="ct-card" onclick="copyEmail('press@cammup.com', this)">
+          <div class="ct-role"><span class="en">For Press</span><span class="kr">미디어 문의</span></div>
+          <div class="ct-email">press@cammup.com</div>
+          <div class="ct-desc"><span class="en">Media &amp; press inquiries</span><span class="kr">미디어 및 보도 문의</span></div>
+          <span class="ct-copy"><span class="en">Copy</span><span class="kr">복사</span></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" style="line-height:0;text-decoration:none;">
+        <svg width="72" height="14" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
+          <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="#211C19"/>
+          <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="#211C19"/>
+          <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+        </svg>
+      </a>
+      <div class="footer-right">
+        <div class="footer-copy">© 2026 CAMMUPLABS, Inc.</div>
+        <div class="footer-tag">Human Interaction Platform</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+let isKr = false;
+function toggleLang() {
+  isKr = !isKr;
+  document.body.classList.toggle('is-kr', isKr);
+  document.getElementById('en-lbl').className = isKr ? 'inactive' : 'active';
+  document.getElementById('kr-lbl').className = isKr ? 'active'   : 'inactive';
+}
+function toggleMenu() {
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const open = menu.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+function copyEmail(email, el) {
+  navigator.clipboard.writeText(email).then(() => {
+    const copy = el.querySelector('.ct-copy');
+    const orig = copy.innerHTML;
+    copy.innerHTML = '<span class="en">Copied!</span><span class="kr">복사됨!</span>';
+    copy.style.opacity = '1';
+    setTimeout(() => { copy.innerHTML = orig; copy.style.opacity = ''; }, 1500);
+  });
+}
+</script>
+</body>
+</html>

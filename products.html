@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — CAMMUPLABS</title>
+  <meta name="description" content="TalkBingo and Debate Platform — what we've built and what's coming.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anta&family=Inter:wght@300;400;500;600&family=Alexandria:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FDF7F1; --ink: #211C19; --pink: #FF0051;
+      --navy: #1E2A44; --muted: #6B6159; --border: #EDE5DB;
+      --sage: #5A7A5A;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', 'Alexandria', sans-serif; background: var(--cream); color: var(--ink); min-width: 320px; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 68px; background: rgba(253,247,241,0.92); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    #nav-inner {
+      max-width: 1440px; min-width: 320px; margin: 0 auto; height: 100%;
+      display: flex; align-items: center; padding: 0 80px; gap: 32px;
+    }
+    .nav-logo { flex-shrink: 0; line-height: 0; text-decoration: none; }
+    .nav-logo svg { color: var(--ink); }
+    .nav-links { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+    .nav-links a {
+      font-size: 13px; font-weight: 500; text-decoration: none; color: var(--ink);
+      opacity: 0.55; transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; font-weight: 600; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
+    .nav-right { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+    #lang-btn {
+      background: none; border: none; cursor: pointer; font-size: 12px;
+      font-weight: 500; color: var(--ink); display: flex; gap: 3px; align-items: center;
+    }
+    #lang-btn .sep { color: var(--muted); }
+    #lang-btn .active { font-weight: 700; }
+    #lang-btn .inactive { color: var(--muted); }
+    .nav-cta {
+      padding: 8px 20px; background: var(--ink); color: white;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.72; }
+    #hamburger {
+      display: none; width: 44px; height: 44px; border-radius: 12px;
+      background: var(--ink); border: none; cursor: pointer;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      flex-shrink: 0; transition: opacity 0.15s;
+    }
+    #hamburger:hover { opacity: 0.78; }
+    #hamburger span { display: block; width: 20px; height: 2px; background: white; border-radius: 2px; transition: all 0.25s; }
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    #mobile-menu {
+      position: fixed; top: 68px; right: 16px; z-index: 99;
+      background: var(--ink); border-radius: 20px;
+      padding: 10px; display: flex; flex-direction: column; gap: 6px;
+      min-width: 200px; opacity: 0; pointer-events: none;
+      transform: translateY(-8px) scale(0.97); transform-origin: top right;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+    .mob-link {
+      display: block; padding: 12px 20px; background: white; color: var(--ink);
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center; transition: opacity 0.15s;
+    }
+    .mob-link:hover { opacity: 0.72; }
+    .mob-cta {
+      display: block; padding: 12px 20px; background: var(--pink); color: white;
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center; margin-top: 4px; transition: opacity 0.15s;
+    }
+    .mob-cta:hover { opacity: 0.82; }
+
+    @media (max-width: 1023px) {
+      #nav-inner { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      #hamburger { display: flex; }
+    }
+    @media (max-width: 479px) { #nav-inner { padding: 0 16px; } }
+
+    /* ── PAGE ── */
+    .page-body { padding-top: 68px; }
+
+    /* Hero */
+    .pg-hero { padding: 120px 80px; background: var(--cream); }
+    .pg-hero-inner { max-width: 1440px; margin: 0 auto; }
+    .pg-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--pink); margin-bottom: 24px;
+    }
+    .pg-hl {
+      font-family: 'Anta', 'Inter', sans-serif;
+      font-size: clamp(36px, 4.8vw, 72px); font-weight: 400;
+      line-height: 1.06; letter-spacing: -0.01em; color: var(--ink);
+      max-width: 800px; margin-bottom: 20px;
+    }
+    .pg-sub { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.6; }
+
+    /* Product sections */
+    .sec-product { padding: 80px 80px; }
+    .sec-product:nth-child(odd) { background: white; }
+    .sec-product:nth-child(even) { background: var(--cream); }
+    .sec-product-inner { max-width: 1440px; margin: 0 auto; }
+
+    .sec-tag {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--pink); margin-bottom: 20px;
+    }
+
+    /* Large product card */
+    .prod-card-large {
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--cream);
+      display: flex; transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .prod-card-large:hover { box-shadow: 0 16px 48px rgba(33,28,25,0.09); transform: translateY(-3px); }
+    .prod-acc { width: 8px; flex-shrink: 0; }
+    .prod-acc.pink { background: var(--pink); }
+    .prod-acc.navy { background: var(--navy); }
+    .prod-acc.sage { background: #8FA48F; }
+    .prod-card-body { padding: 48px 52px; flex: 1; }
+    .prod-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .prod-tag {
+      padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .prod-tag.live-tag { background: rgba(255,0,81,0.08); color: var(--pink); border-color: rgba(255,0,81,0.2); }
+    .prod-tag.dev-tag { background: rgba(30,42,68,0.06); color: var(--navy); border-color: rgba(30,42,68,0.15); }
+    .prod-tag.rnd-tag { background: rgba(143,164,143,0.1); color: var(--sage); border-color: rgba(90,122,90,0.2); }
+    .prod-name {
+      font-family: 'Anta', 'Inter', sans-serif; font-size: clamp(28px, 3vw, 44px);
+      font-weight: 400; color: var(--ink); margin-bottom: 16px; line-height: 1.1;
+    }
+    .prod-desc { font-size: 16px; color: var(--muted); line-height: 1.8; max-width: 600px; margin-bottom: 32px; }
+    .prod-features { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px; }
+    .prod-feat { }
+    .prod-feat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pink); margin-bottom: 4px; }
+    .prod-feat-val { font-size: 14px; color: var(--ink); font-weight: 500; }
+    .prod-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn-dark {
+      padding: 12px 28px; background: var(--ink); color: white;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.15s; display: inline-block;
+    }
+    .btn-dark:hover { opacity: 0.72; }
+    .btn-ghost {
+      padding: 12px 28px; border: 1px solid rgba(33,28,25,0.25); color: var(--ink);
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; background: transparent; transition: all 0.15s; display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+
+    /* Coming next section */
+    .sec-coming { padding: 120px 80px; background: var(--ink); }
+    .sec-coming-inner { max-width: 1440px; margin: 0 auto; }
+    .sec-coming .sec-tag { color: var(--pink); }
+    .sec-coming-hl {
+      font-family: 'Anta', 'Inter', sans-serif;
+      font-size: clamp(28px, 3.2vw, 48px); font-weight: 400;
+      line-height: 1.1; letter-spacing: -0.01em; color: white; margin-bottom: 16px;
+    }
+    .sec-coming-sub { font-size: 16px; color: rgba(255,255,255,0.42); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
+    .coming-card {
+      display: inline-flex; align-items: center; gap: 20px;
+      padding: 24px 32px; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; background: rgba(255,255,255,0.04);
+    }
+    .coming-card-dot { width: 12px; height: 12px; border-radius: 50%; background: #8FA48F; flex-shrink: 0; }
+    .coming-card-yr { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+    .coming-card-name { font-family: 'Anta', 'Inter', sans-serif; font-size: 22px; font-weight: 400; color: white; }
+    .coming-card-badge {
+      padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: rgba(143,164,143,0.12); color: #8FA48F;
+    }
+    .coming-card-desc { font-size: 13px; color: rgba(255,255,255,0.4); max-width: 320px; line-height: 1.6; }
+
+    /* Footer */
+    footer { padding: 40px 80px; background: var(--cream); border-top: 1px solid var(--border); }
+    .footer-inner {
+      max-width: 1440px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-right { text-align: right; }
+    .footer-copy { font-size: 12px; color: #B5ADA4; }
+    .footer-tag { font-size: 11px; color: #C8C0B8; margin-top: 4px; }
+
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .pg-hero { padding: 80px 40px; }
+      .sec-product { padding: 60px 40px; }
+      .sec-coming { padding: 80px 40px; }
+      footer { padding: 32px 40px; }
+      .prod-card-body { padding: 32px 28px; }
+      .coming-card { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 479px) {
+      .pg-hero { padding: 60px 20px; }
+      .sec-product { padding: 40px 20px; }
+      .sec-coming { padding: 60px 20px; }
+      footer { padding: 28px 20px; }
+      .prod-card-large { flex-direction: column; }
+      .prod-acc { width: 100%; height: 6px; }
+    }
+
+    /* Lang */
+    .kr { display: none; }
+    body.is-kr .en { display: none; }
+    body.is-kr .kr { display: inline; }
+    body.is-kr p.kr, body.is-kr div.kr { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<header id="nav">
+  <div id="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <svg width="90" height="18" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="currentColor"/>
+        <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="currentColor"/>
+        <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+      </svg>
+    </a>
+    <nav class="nav-links">
+      <a href="about.html"><span class="en">About</span><span class="kr">회사소개</span></a>
+      <a href="vision.html"><span class="en">Vision</span><span class="kr">비전</span></a>
+      <a href="products.html" class="active"><span class="en">Products</span><span class="kr">제품</span></a>
+    </nav>
+    <div class="nav-right">
+      <button id="lang-btn" onclick="toggleLang()">
+        <span id="en-lbl" class="active">EN</span>
+        <span class="sep">/</span>
+        <span id="kr-lbl" class="inactive">KR</span>
+      </button>
+      <a href="contact.html" class="nav-cta">
+        <span class="en">Get in touch</span><span class="kr">문의하기</span>
+      </a>
+      <button id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu">
+  <a href="about.html" class="mob-link"><span class="en">About</span><span class="kr">회사소개</span></a>
+  <a href="vision.html" class="mob-link"><span class="en">Vision</span><span class="kr">비전</span></a>
+  <a href="products.html" class="mob-link"><span class="en">Products</span><span class="kr">제품</span></a>
+  <a href="contact.html" class="mob-cta"><span class="en">Get in touch</span><span class="kr">문의하기</span></a>
+</div>
+
+<!-- ══ PAGE ══════════════════════════════════════════════════════════ -->
+<div class="page-body">
+
+  <!-- Hero -->
+  <section class="pg-hero">
+    <div class="pg-hero-inner">
+      <p class="pg-tag"><span class="en">PRODUCTS</span><span class="kr">제품</span></p>
+      <h1 class="pg-hl">
+        <span class="en">What we've built.</span>
+        <span class="kr">지금까지 만든 것들.</span>
+      </h1>
+      <p class="pg-sub">
+        <span class="en">Two products in the market. One in R&amp;D. Each one is a question engine designed for a different conversation.</span>
+        <span class="kr">시장에 두 가지 제품. 연구 개발 중인 하나. 각각 다른 대화를 위해 설계된 질문 엔진입니다.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- TalkBingo -->
+  <section class="sec-product">
+    <div class="sec-product-inner">
+      <p class="sec-tag"><span class="en">01 / TALKBINGO</span><span class="kr">01 / 톡빙고</span></p>
+      <div class="prod-card-large">
+        <div class="prod-acc pink"></div>
+        <div class="prod-card-body">
+          <div class="prod-tags">
+            <span class="prod-tag">B2C</span>
+            <span class="prod-tag live-tag"><span class="en">LIVE</span><span class="kr">출시</span></span>
+            <span class="prod-tag"><span class="en">iOS &amp; Android</span><span class="kr">iOS &amp; 안드로이드</span></span>
+          </div>
+          <div class="prod-name">TalkBingo</div>
+          <p class="prod-desc">
+            <span class="en">A game-based communication platform where empathy is the rule that completes the line. Players answer real questions — about family, values, memories, and dreams — and the conversation builds from there. Early users describe it as "the most honest conversation I've had in years."</span>
+            <span class="kr">공감이 빙고를 완성하는 규칙인 게임 기반 소통 플랫폼입니다. 플레이어들은 가족, 가치관, 기억, 꿈에 관한 진짜 질문에 답하며 대화가 이어집니다. 초기 사용자들은 "몇 년 만에 가장 솔직한 대화"라고 말합니다.</span>
+          </p>
+          <div class="prod-features">
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Market</span><span class="kr">시장</span></div>
+              <div class="prod-feat-val">B2C</div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Stage</span><span class="kr">단계</span></div>
+              <div class="prod-feat-val"><span class="en">Stage 1.0 · 2026</span><span class="kr">1단계 · 2026</span></div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Platforms</span><span class="kr">플랫폼</span></div>
+              <div class="prod-feat-val">iOS · Android</div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Pilot</span><span class="kr">파일럿</span></div>
+              <div class="prod-feat-val"><span class="en">3 Schools · Korea</span><span class="kr">3개 학교 · 한국</span></div>
+            </div>
+          </div>
+          <div class="prod-actions">
+            <a href="#" class="btn-dark">
+              <span class="en">Download on App Store →</span>
+              <span class="kr">앱스토어에서 다운로드 →</span>
+            </a>
+            <a href="contact.html" class="btn-ghost">
+              <span class="en">Pilot with your school</span>
+              <span class="kr">학교 파일럿 문의</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Debate Platform -->
+  <section class="sec-product">
+    <div class="sec-product-inner">
+      <p class="sec-tag"><span class="en">02 / DEBATE PLATFORM</span><span class="kr">02 / 토론 플랫폼</span></p>
+      <div class="prod-card-large">
+        <div class="prod-acc navy"></div>
+        <div class="prod-card-body">
+          <div class="prod-tags">
+            <span class="prod-tag">B2B</span>
+            <span class="prod-tag">Education</span>
+            <span class="prod-tag dev-tag"><span class="en">IN DEVELOPMENT</span><span class="kr">개발중</span></span>
+          </div>
+          <div class="prod-name"><span class="en">Debate Platform</span><span class="kr">토론 플랫폼</span></div>
+          <p class="prod-desc">
+            <span class="en">Where students learn by speaking, not by being told. An AI-driven structured debate platform designed for classrooms — SEL-aligned, open-answer format, with question scaffolding that grows with the student. Designed for teachers who want their students to think out loud.</span>
+            <span class="kr">학생들이 듣는 것이 아닌 말하면서 배우는 곳. 교실을 위해 설계된 AI 기반 구조화된 토론 플랫폼 — SEL 기반, 개방형 답변 형식, 학생과 함께 성장하는 질문 스캐폴딩. 학생들이 소리 내어 생각하기를 원하는 선생님을 위해 설계되었습니다.</span>
+          </p>
+          <div class="prod-features">
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Market</span><span class="kr">시장</span></div>
+              <div class="prod-feat-val">B2B · Education</div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Stage</span><span class="kr">단계</span></div>
+              <div class="prod-feat-val"><span class="en">Stage 2.0 · 2027</span><span class="kr">2단계 · 2027</span></div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Status</span><span class="kr">상태</span></div>
+              <div class="prod-feat-val"><span class="en">In Development</span><span class="kr">개발중</span></div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Format</span><span class="kr">형식</span></div>
+              <div class="prod-feat-val">SEL-aligned</div>
+            </div>
+          </div>
+          <div class="prod-actions">
+            <a href="contact.html" class="btn-dark">
+              <span class="en">Join early access →</span>
+              <span class="kr">얼리 액세스 신청 →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Next -->
+  <section class="sec-coming">
+    <div class="sec-coming-inner">
+      <p class="sec-tag"><span class="en">03 / COMING NEXT</span><span class="kr">03 / 다음 제품</span></p>
+      <h2 class="sec-coming-hl">
+        <span class="en">Stage 3.0: Generational AI</span>
+        <span class="kr">3단계: 세대간 AI</span>
+      </h2>
+      <p class="sec-coming-sub">
+        <span class="en">An AI that translates between generations. Built on the data and question corpus accumulated from Stages 1 and 2 — a system that doesn't just generate questions, but understands how language, values, and meaning shift across age.</span>
+        <span class="kr">세대 간 통역사가 되는 AI. 1단계와 2단계에서 축적된 데이터와 질문 코퍼스를 기반으로 구축됩니다 — 단순히 질문을 생성하는 것이 아니라 언어, 가치관, 의미가 나이에 따라 어떻게 변화하는지 이해하는 시스템입니다.</span>
+      </p>
+      <div class="coming-card">
+        <div class="coming-card-dot"></div>
+        <div>
+          <div class="coming-card-yr">2028 · Stage 3.0</div>
+          <div class="coming-card-name"><span class="en">Generational AI</span><span class="kr">세대간 AI</span></div>
+        </div>
+        <span class="coming-card-badge">R&amp;D</span>
+        <div class="coming-card-desc">
+          <span class="en">B2B · Research. An AI translator between generations.</span>
+          <span class="kr">B2B · 연구. 세대 간 AI 통역사.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <a href="index.html" style="line-height:0;text-decoration:none;">
+        <svg width="72" height="14" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
+          <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="#211C19"/>
+          <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="#211C19"/>
+          <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+        </svg>
+      </a>
+      <div class="footer-right">
+        <div class="footer-copy">© 2026 CAMMUPLABS, Inc.</div>
+        <div class="footer-tag">Human Interaction Platform</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+let isKr = false;
+function toggleLang() {
+  isKr = !isKr;
+  document.body.classList.toggle('is-kr', isKr);
+  document.getElementById('en-lbl').className = isKr ? 'inactive' : 'active';
+  document.getElementById('kr-lbl').className = isKr ? 'active'   : 'inactive';
+}
+function toggleMenu() {
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const open = menu.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>

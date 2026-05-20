@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAMMUPLABS — We build the technology of questions.</title>
+  <meta name="description" content="CAMMUPLABS researches questions. We build technology that reconnects conversations and lets sincerity travel between people.">
+  <link rel="canonical" href="https://cammuplabs.com">
+  <meta property="og:url" content="https://cammuplabs.com">
+  <meta property="og:site_name" content="CAMMUPLABS">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anta&family=Inter:wght@300;400;500;600&family=Alexandria:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FDF7F1; --ink: #211C19; --pink: #FF0051;
+      --navy: #1E2A44; --muted: #6B6159; --border: #EDE5DB;
+    }
+    html, body { height: 100%; overflow: hidden; background: var(--cream); color: var(--ink); }
+    body { font-family: 'Inter', 'Alexandria', sans-serif; }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 68px;
+      transition: background 0.35s, border-color 0.35s;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.bg-light { background: rgba(253,247,241,0.88); backdrop-filter: blur(14px); border-bottom-color: var(--border); }
+    #nav.bg-dark  { background: rgba(33,28,25,0.88);  backdrop-filter: blur(14px); border-bottom-color: rgba(255,255,255,0.1); }
+
+    /* inner wrapper — max-width + padding */
+    #nav-inner {
+      max-width: 1440px; min-width: 320px;
+      margin: 0 auto; height: 100%;
+      display: flex; align-items: center;
+      padding: 0 80px; gap: 32px;
+    }
+
+    .nav-logo { flex-shrink: 0; line-height: 0; }
+    .nav-logo svg { color: var(--ink); transition: color 0.35s; }
+    #nav.bg-dark .nav-logo svg { color: white; }
+
+    /* desktop links */
+    .nav-links { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+    .nav-links a { font-size: 13px; font-weight: 500; text-decoration: none; color: var(--ink); opacity: 0.65; transition: opacity 0.15s; }
+    .nav-links a:hover { opacity: 1; }
+    #nav.bg-dark .nav-links a { color: white; }
+
+    .nav-right { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+
+    #lang-btn {
+      background: none; border: none; cursor: pointer; font-size: 12px;
+      font-weight: 500; color: var(--ink); display: flex; gap: 3px; align-items: center;
+    }
+    #nav.bg-dark #lang-btn { color: white; }
+    #lang-btn .sep { color: var(--muted); }
+    #lang-btn .active { font-weight: 700; }
+    #lang-btn .inactive { color: var(--muted); }
+
+    .nav-cta {
+      padding: 8px 20px; background: var(--ink); color: white;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.15s; white-space: nowrap;
+    }
+    .nav-cta:hover { opacity: 0.72; }
+    #nav.bg-dark .nav-cta { background: white; color: var(--ink); }
+
+    /* ── HAMBURGER BUTTON ── */
+    #hamburger {
+      display: none;
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--ink); border: none; cursor: pointer;
+      flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      flex-shrink: 0; transition: opacity 0.15s;
+    }
+    #hamburger:hover { opacity: 0.78; }
+    #hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: white; border-radius: 2px; transition: all 0.25s;
+    }
+    #nav.bg-dark #hamburger { background: white; }
+    #nav.bg-dark #hamburger span { background: var(--ink); }
+
+    /* hamburger → X animation */
+    #hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── MOBILE MENU DROPDOWN ── */
+    #mobile-menu {
+      position: fixed; top: 68px; right: 16px; z-index: 99;
+      background: var(--ink); border-radius: 20px;
+      padding: 10px; display: flex; flex-direction: column; gap: 6px;
+      min-width: 200px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-8px) scale(0.97);
+      transform-origin: top right;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+    #mobile-menu.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+    .mob-link {
+      display: block; padding: 12px 20px;
+      background: white; color: var(--ink);
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center;
+      transition: opacity 0.15s;
+    }
+    .mob-link:hover { opacity: 0.72; }
+    .mob-cta {
+      display: block; padding: 12px 20px;
+      background: var(--pink); color: white;
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-decoration: none; text-align: center;
+      margin-top: 4px; transition: opacity 0.15s;
+    }
+    .mob-cta:hover { opacity: 0.82; }
+
+    /* ── RESPONSIVE BREAKPOINTS ── */
+    @media (max-width: 1023px) {
+      #nav-inner { padding: 0 24px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      #hamburger { display: flex; }
+    }
+    @media (max-width: 479px) {
+      #nav-inner { padding: 0 16px; }
+      #hero-content { padding: 0 20px; padding-top: 68px; }
+    }
+    @media (min-width: 1441px) {
+      #nav-inner { padding: 0 80px; }
+    }
+
+    /* ── HERO ── */
+    #sphere-bg { position: fixed; inset: 0; z-index: 0; }
+    #sphere-canvas { width: 100%; height: 100%; display: block; }
+    #hero-overlay {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to right, rgba(237,234,230,0.52) 0%, rgba(237,234,230,0.2) 55%, transparent 100%);
+    }
+    #hero-content {
+      position: fixed; z-index: 2; top: 0; left: 0; height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 80px; padding-top: 68px; max-width: 780px;
+    }
+    .hero-traction {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--pink);
+      margin-bottom: 20px;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 14px 5px 5px; border: 1px solid var(--border);
+      border-radius: 100px; background: rgba(253,247,241,0.72);
+      backdrop-filter: blur(8px); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink);
+      margin-bottom: 28px; width: fit-content;
+    }
+    .pill-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--pink); flex-shrink: 0; }
+    .hero-hl {
+      font-family: 'Anta', 'Inter', sans-serif;
+      font-size: clamp(34px, 4.2vw, 64px); font-weight: 400;
+      line-height: 1.08; letter-spacing: -0.01em;
+      color: var(--ink); margin-bottom: 14px;
+    }
+    .hero-sub { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .chip {
+      padding: 7px 16px; border: 1px solid var(--border); border-radius: 100px;
+      font-size: 12px; font-weight: 500; color: var(--ink);
+      background: rgba(253,247,241,0.65); backdrop-filter: blur(8px);
+      cursor: pointer; transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--ink); background: var(--ink); color: white; }
+    .hero-ctas { display: flex; gap: 12px; align-items: center; }
+    .btn-dark {
+      padding: 11px 26px; background: var(--ink); color: white;
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; transition: opacity 0.15s; cursor: pointer; border: none;
+      display: inline-block;
+    }
+    .btn-dark:hover { opacity: 0.72; }
+    .btn-ghost {
+      padding: 11px 26px; border: 1px solid rgba(33,28,25,0.3); color: var(--ink);
+      border-radius: 100px; font-size: 13px; font-weight: 500;
+      text-decoration: none; background: rgba(253,247,241,0.45);
+      backdrop-filter: blur(8px); transition: all 0.15s; cursor: pointer;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .hero-founder {
+      font-size: 12px; color: var(--muted); margin-top: 24px;
+    }
+
+    /* ── POPUP ── */
+    #popup-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(33,28,25,0.35); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    #popup-overlay.open { opacity: 1; pointer-events: all; }
+    #popup-panel {
+      background: var(--cream); border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      width: 520px; max-width: calc(100vw - 48px); max-height: 78vh;
+      display: flex; flex-direction: column;
+      transform: translateY(16px); transition: transform 0.25s ease;
+    }
+    #popup-overlay.open #popup-panel { transform: translateY(0); }
+    #popup-hdr {
+      padding: 18px 22px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    #popup-title { font-size: 16px; font-weight: 600; color: var(--ink); }
+    #popup-close { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--muted); line-height: 1; transition: color 0.15s; }
+    #popup-close:hover { color: var(--ink); }
+    #popup-body { padding: 20px 22px; overflow-y: auto; font-size: 14px; color: var(--muted); line-height: 1.8; white-space: pre-line; }
+    #popup-ft { padding: 16px 22px 20px; border-top: 1px solid var(--border); }
+
+    /* ── LANG ── */
+    .kr { display: none; }
+    body.is-kr .en { display: none; }
+    body.is-kr .kr { display: inline; }
+    body.is-kr .kr.blk { display: block; }
+    body.is-kr p.kr, body.is-kr div.kr { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<header id="nav" style="background:transparent;">
+  <div id="nav-inner">
+    <!-- Logo -->
+    <a href="index.html" class="nav-logo">
+      <svg width="90" height="18" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="currentColor"/>
+        <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="currentColor"/>
+        <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+      </svg>
+    </a>
+
+    <!-- Desktop links -->
+    <nav class="nav-links">
+      <a href="about.html"><span class="en">About</span><span class="kr">회사소개</span></a>
+      <a href="vision.html"><span class="en">Vision</span><span class="kr">비전</span></a>
+      <a href="products.html"><span class="en">Products</span><span class="kr">제품</span></a>
+    </nav>
+
+    <!-- Right side -->
+    <div class="nav-right">
+      <button id="lang-btn" onclick="toggleLang()">
+        <span id="en-lbl" class="active">EN</span>
+        <span class="sep">/</span>
+        <span id="kr-lbl" class="inactive">KR</span>
+      </button>
+      <a href="contact.html" class="nav-cta">
+        <span class="en">Get in touch</span><span class="kr">문의하기</span>
+      </a>
+      <!-- Hamburger (mobile/tablet only) -->
+      <button id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile dropdown menu -->
+<div id="mobile-menu">
+  <a href="about.html" class="mob-link"><span class="en">About</span><span class="kr">회사소개</span></a>
+  <a href="vision.html" class="mob-link"><span class="en">Vision</span><span class="kr">비전</span></a>
+  <a href="products.html" class="mob-link"><span class="en">Products</span><span class="kr">제품</span></a>
+  <a href="contact.html" class="mob-cta"><span class="en">Get in touch</span><span class="kr">문의하기</span></a>
+</div>
+
+<!-- ══ POPUP ══════════════════════════════════════════════════════════ -->
+<div id="popup-overlay" onclick="closePopup(event)">
+  <div id="popup-panel">
+    <div id="popup-hdr">
+      <span id="popup-title"></span>
+      <button id="popup-close" onclick="closePopup()">✕</button>
+    </div>
+    <div id="popup-body"></div>
+    <div id="popup-ft">
+      <a id="popup-cta" href="#" class="btn-dark" style="display:inline-block;text-decoration:none;">View full page →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div id="sphere-bg"><canvas id="sphere-canvas"></canvas></div>
+<div id="hero-overlay"></div>
+<div id="hero-content">
+  <div class="hero-traction">
+    <span class="en">TalkBingo · Live on App Store · Pilot with 3 Schools</span>
+    <span class="kr">TalkBingo · 앱스토어 출시 · 3개 학교 파일럿</span>
+  </div>
+  <div class="hero-pill">
+    <div class="pill-dot"></div>
+    <span class="en">QUESTION TECHNOLOGY · 질문 기술</span>
+    <span class="kr">질문 기술 · QUESTION TECHNOLOGY</span>
+  </div>
+  <h1 class="hero-hl en">We build the technology<br>of questions.</h1>
+  <h1 class="hero-hl kr" style="display:none">질문을 연구하는<br>CAMMUPLABS</h1>
+  <p class="hero-sub">
+    <span class="en">질문이 기술이 되는 곳.</span>
+    <span class="kr">Where questions become technology.</span>
+  </p>
+  <div class="hero-chips" id="hero-chips"></div>
+  <div class="hero-ctas">
+    <a href="about.html" class="btn-dark">
+      <span class="en">Read our thesis →</span>
+      <span class="kr">우리의 가설 →</span>
+    </a>
+    <a href="contact.html" class="btn-ghost">
+      <span class="en">Talk to us</span>
+      <span class="kr">문의하기</span>
+    </a>
+  </div>
+  <div class="hero-founder">
+    <span class="en">Founder, CAMMUPLABS · contact@cammuplabs.com</span>
+    <span class="kr">창립자, CAMMUPLABS · contact@cammuplabs.com</span>
+  </div>
+</div>
+
+<!-- ══ THREE.JS ════════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+// ─── POPUP DATA ───────────────────────────────────────────────────
+const POPUPS = [
+  { id:'problem', url:'about.html',
+    en:{ label:'The Problem', title:'Conversations are breaking down.',
+         body:'62% of Koreans say generational conversation feels "difficult or impossible."\n\nClassroom participation has dropped 41% in a decade. 1 in 3 teens say they can\'t talk to their parents about things that matter.\n\nThe problem isn\'t volume — it\'s depth.',
+         cta:'Read full analysis →' },
+    kr:{ label:'문제 정의', title:'대화가 끊어지고 있습니다.',
+         body:'한국인 62%가 세대 간 대화를 "어렵거나 불가능하다"고 느낍니다.\n\n교실 참여율은 10년간 41% 감소했습니다. 청소년 3명 중 1명은 부모에게 중요한 이야기를 할 수 없다고 합니다.\n\n문제는 양이 아니라 깊이입니다.',
+         cta:'전체 분석 보기 →' }
+  },
+  { id:'thesis', url:'about.html',
+    en:{ label:'Our Thesis', title:'Questions are the technology.',
+         body:'The right question shifts perspective, opens empathy, and turns strangers into people who understand each other.\n\nWe\'re building the question-engineering layer of human communication — not just prompts, but the architecture of connection itself.',
+         cta:'Read our thesis →' },
+    kr:{ label:'우리의 가설', title:'질문이 곧 기술입니다.',
+         body:'올바른 질문은 관점을 바꾸고 공감을 열며, 낯선 사람들을 서로를 이해하는 사람들로 만듭니다.\n\n우리는 인간 소통의 질문 엔지니어링 레이어를 구축합니다 — 단순한 프롬프트가 아닌, 연결 자체의 아키텍처입니다.',
+         cta:'우리의 가설 보기 →' }
+  },
+  { id:'roadmap', url:'vision.html',
+    en:{ label:'Roadmap', title:'Three stages of connection.',
+         body:'2026 — TalkBingo · Live\nGame-based chat platform for real conversation.\n\n2027 — Debate Platform · In Development\nAI-driven structured debate for classrooms.\n\n2028 — Generational AI · R&D\nAI that translates between generations.',
+         cta:'See full roadmap →' },
+    kr:{ label:'로드맵', title:'연결의 세 단계.',
+         body:'2026 — TalkBingo · 출시\n진짜 대화를 위한 게임 기반 채팅 플랫폼.\n\n2027 — 토론 플랫폼 · 개발중\nAI 기반 교실 토론 플랫폼.\n\n2028 — 세대간 AI · 연구중\n세대 간 통역사가 되는 AI.',
+         cta:'전체 로드맵 보기 →' }
+  },
+  { id:'whynow', url:'vision.html',
+    en:{ label:'Why Now', title:'The market is ready.',
+         body:'SEL is being legislated across North America and Korea — schools need platforms that teach communication, not just content.\n\nAI now makes 1:1 personalized question generation feasible at scale. The generational divide is becoming a visible social cost.',
+         cta:'See why the timing is right →' },
+    kr:{ label:'왜 지금인가', title:'시장이 준비됐습니다.',
+         body:'북미와 한국 전역에서 SEL이 법제화되고 있습니다 — 학교는 콘텐츠뿐 아니라 소통을 가르치는 플랫폼이 필요합니다.\n\nAI가 대규모 맞춤형 질문 생성을 가능하게 했습니다. 세대 간 격차가 사회적 비용으로 가시화되고 있습니다.',
+         cta:'왜 지금인지 보기 →' }
+  },
+  { id:'nowlive', url:'products.html',
+    en:{ label:'Now Live', title:'TalkBingo is live.',
+         body:'Available now on iOS & Android.\n\nPlayers answer questions, and empathy completes the bingo line. Early users describe it as "the most honest conversation I\'ve had in years."\n\nDebate Platform for Class — coming 2027.',
+         cta:'View our products →' },
+    kr:{ label:'지금 출시', title:'TalkBingo가 출시되었습니다.',
+         body:'iOS & Android에서 지금 이용 가능합니다.\n\n플레이어가 질문에 답하면 공감이 빙고를 완성합니다. 초기 사용자들은 "몇 년 만에 가장 솔직한 대화"라고 말합니다.\n\n교실용 토론 플랫폼 — 2027년 출시 예정.',
+         cta:'제품 보기 →' }
+  }
+];
+
+// ─── HERO CHIPS ──────────────────────────────────────────────────
+(function buildChips(){
+  const container = document.getElementById('hero-chips');
+  POPUPS.forEach(p => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.innerHTML = `<span class="en">${p.en.label}</span><span class="kr">${p.kr.label}</span>`;
+    btn.onclick = () => openPopup(p);
+    container.appendChild(btn);
+  });
+})();
+
+// ─── POPUP LOGIC ─────────────────────────────────────────────────
+let isKr = false;
+function openPopup(p) {
+  const lang = isKr ? p.kr : p.en;
+  document.getElementById('popup-title').textContent = lang.title;
+  document.getElementById('popup-body').textContent  = lang.body;
+  const cta = document.getElementById('popup-cta');
+  cta.textContent = lang.cta;
+  cta.href = p.url;
+  document.getElementById('popup-overlay').classList.add('open');
+}
+function closePopup(e) {
+  if (!e || e.target === document.getElementById('popup-overlay') || e.currentTarget.id === 'popup-close') {
+    document.getElementById('popup-overlay').classList.remove('open');
+  }
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closePopup({target:document.getElementById('popup-overlay')}); });
+
+// ─── HAMBURGER MENU ──────────────────────────────────────────────
+function toggleMenu() {
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  const open = menu.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+// Close menu when clicking outside
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+
+// ─── LANG TOGGLE ─────────────────────────────────────────────────
+function toggleLang() {
+  isKr = !isKr;
+  document.body.classList.toggle('is-kr', isKr);
+  document.getElementById('en-lbl').className = isKr ? 'inactive' : 'active';
+  document.getElementById('kr-lbl').className = isKr ? 'active'   : 'inactive';
+}
+
+// ─── COPY EMAIL ──────────────────────────────────────────────────
+function copyEmail(email, el) {
+  navigator.clipboard.writeText(email).then(() => {
+    const copy = el.querySelector('.ct-copy');
+    const orig = copy.innerHTML;
+    copy.innerHTML = '<span class="en">Copied!</span><span class="kr">복사됨!</span>';
+    setTimeout(() => { copy.innerHTML = orig; }, 1500);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// THREE.JS SPHERE
+// ═══════════════════════════════════════════════════════════════════
+const SPHERE_RADIUS = 1.35;
+const ORBIT_DIST    = SPHERE_RADIUS * 1.38;
+const bubbleWords = ['Question','Connect','Listen','Understand','Empathy','Dialogue','Curiosity','Genuine','Bridge','Discover','Express','Resonate','Come Up','Meaning','Together'];
+
+const canvas   = document.getElementById('sphere-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.setClearColor(0x000000, 0);
+
+const scene  = new THREE.Scene();
+scene.fog    = new THREE.FogExp2(0xEDEAE6, 0.012);
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
+camera.position.set(0, 1.8, 14.5);
+
+function makeEnvMap() {
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const ctx = c.getContext('2d');
+  const g = ctx.createRadialGradient(256,256,40,256,256,256);
+  g.addColorStop(0,'#ffffff'); g.addColorStop(0.3,'#D4C5BC');
+  g.addColorStop(0.6,'#BEC4C8'); g.addColorStop(1,'#C8C4BE');
+  ctx.fillStyle = g; ctx.fillRect(0,0,512,512);
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  return tex;
+}
+const envTex = makeEnvMap();
+scene.environment = envTex;
+
+scene.add(new THREE.AmbientLight(0xFFFBEF, 0.7));
+const sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
+sunLight.position.set(4,12,6); scene.add(sunLight);
+const rimLight = new THREE.DirectionalLight(0xEC4899, 1.6);
+rimLight.position.set(-6,3,-8); scene.add(rimLight);
+
+const flareC = document.createElement('canvas'); flareC.width = flareC.height = 128;
+const fCtx = flareC.getContext('2d');
+const fg = fCtx.createRadialGradient(64,64,0,64,64,64);
+fg.addColorStop(0,'rgba(255,255,255,0.42)'); fg.addColorStop(0.2,'rgba(255,218,240,0.16)');
+fg.addColorStop(0.6,'rgba(180,230,255,0.05)'); fg.addColorStop(1,'rgba(0,0,0,0)');
+fCtx.fillStyle = fg; fCtx.fillRect(0,0,128,128);
+const flareMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(4,4),
+  new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(flareC), transparent:true, opacity:0.25, blending:THREE.AdditiveBlending, depthWrite:false })
+);
+flareMesh.position.set(0,0.5,-2.5); scene.add(flareMesh);
+
+const sphereGeo = new THREE.IcosahedronGeometry(SPHERE_RADIUS, 5);
+const initSpherePos = Array.from(sphereGeo.attributes.position.array);
+const sphereMat = new THREE.MeshPhysicalMaterial({
+  color:0xFFFBF4, transparent:true, opacity:0.85, transmission:0.98, thickness:1.25,
+  roughness:0.05, metalness:0, ior:1.48, iridescence:0.85, iridescenceIOR:1.35,
+  iridescenceThicknessRange:[120,380], clearcoat:1.0, clearcoatRoughness:0.05,
+  envMap:envTex, side:THREE.DoubleSide, depthWrite:true
+});
+const centralSphere = new THREE.Mesh(sphereGeo, sphereMat);
+centralSphere.position.set(0,0.45,0); centralSphere.renderOrder = 5;
+scene.add(centralSphere);
+
+const wireGeo = new THREE.IcosahedronGeometry(SPHERE_RADIUS*1.025, 3);
+const wireMat = new THREE.MeshBasicMaterial({ color:0xffffff, wireframe:true, transparent:true, opacity:0.7, blending:THREE.AdditiveBlending });
+const outerWire = new THREE.Mesh(wireGeo, wireMat);
+outerWire.position.copy(centralSphere.position); scene.add(outerWire);
+
+const SVG_SRC = `<svg width="45" height="16" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="white"/><path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="white"/><path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/></svg>`;
+function makeLogoTexture() {
+  const c = document.createElement('canvas'); c.width = 2048; c.height = 1024;
+  const ctx = c.getContext('2d');
+  const tex = new THREE.CanvasTexture(c); tex.minFilter = THREE.LinearFilter;
+  const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(SVG_SRC);
+  const img = new Image();
+  img.onload = () => {
+    ctx.clearRect(0,0,2048,1024);
+    const dw=720, dh=256, dx=(2048-dw)/2, dy=(1024-dh)/2;
+    ctx.shadowColor='white'; ctx.shadowBlur=24;
+    ctx.drawImage(img,dx,dy,dw,dh); tex.needsUpdate=true;
+  };
+  img.src = url; return tex;
+}
+const logoTex = makeLogoTexture();
+// Logo — core light inside sphere (renderOrder 4: renders BEFORE sphere at 5, so sphere glass covers it)
+const logoMat = new THREE.MeshBasicMaterial({
+  map: logoTex, transparent: true, opacity: 1.0,
+  depthWrite: false, depthTest: false,
+  side: THREE.DoubleSide, blending: THREE.NormalBlending
+});
+const logoMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.9), logoMat);
+logoMesh.position.copy(centralSphere.position);
+logoMesh.renderOrder = 10;
+scene.add(logoMesh);
+
+const satRadius = SPHERE_RADIUS*0.15;
+const satGeo    = new THREE.IcosahedronGeometry(satRadius,2);
+const satMat    = new THREE.MeshPhysicalMaterial({ color:0xffffff, transparent:true, opacity:0.85, transmission:0.95, thickness:0.4, roughness:0.05, ior:1.48, envMap:envTex, side:THREE.DoubleSide });
+const satWireGeo = new THREE.IcosahedronGeometry(satRadius*1.025,2);
+const satWireMat = new THREE.MeshBasicMaterial({ color:0xffffff, wireframe:true, transparent:true, opacity:0.7, blending:THREE.AdditiveBlending });
+const satGroup   = new THREE.Group();
+satGroup.add(new THREE.Mesh(satGeo,satMat));
+satGroup.add(new THREE.Mesh(satWireGeo,satWireMat));
+satGroup.position.set(centralSphere.position.x+ORBIT_DIST, centralSphere.position.y, centralSphere.position.z);
+scene.add(satGroup);
+
+const orbitPts = [];
+for(let i=0;i<=64;i++){const a=(i/64)*Math.PI*2; orbitPts.push(new THREE.Vector3(Math.cos(a)*ORBIT_DIST,0,Math.sin(a)*ORBIT_DIST));}
+const orbitRing = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(orbitPts), new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.07}));
+orbitRing.position.copy(centralSphere.position); orbitRing.rotation.x=Math.PI*0.12; scene.add(orbitRing);
+
+let externalTarget = null;
+window.moveSatelliteTo = (wp) => {
+  if(wp&&typeof wp.x==='number'){const d=new THREE.Vector3().subVectors(new THREE.Vector3(wp.x,wp.y,wp.z),centralSphere.position).normalize(); externalTarget=centralSphere.position.clone().addScaledVector(d,ORBIT_DIST);}
+  else externalTarget=null;
+};
+
+const wSeg=40, waterGeo=new THREE.PlaneGeometry(160,160,wSeg,wSeg);
+waterGeo.rotateX(-Math.PI/2);
+const initWaterPos=Array.from(waterGeo.attributes.position.array);
+const waterMat=new THREE.MeshPhysicalMaterial({color:0x6E6A64,transparent:true,opacity:0.85,roughness:0.08,metalness:0.96,ior:1.33,transmission:0.4,clearcoat:1,clearcoatRoughness:0.08,iridescence:0.6,iridescenceIOR:1.3,iridescenceThicknessRange:[100,300]});
+const waterMesh=new THREE.Mesh(waterGeo,waterMat); waterMesh.position.set(0,-3.2,0); scene.add(waterMesh);
+
+function makeBubbleTex(word){
+  const c=document.createElement('canvas'); c.width=512; c.height=256;
+  const ctx=c.getContext('2d');
+  const x=20,y=20,w=472,h=180,r=32;
+  ctx.shadowColor='rgba(0,0,0,0.15)'; ctx.shadowBlur=8; ctx.shadowOffsetY=4;
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(256+24,y+h); ctx.lineTo(256,y+h+24); ctx.lineTo(256-24,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
+  ctx.fillStyle='rgba(255,255,255,0.22)'; ctx.fill();
+  ctx.shadowColor='transparent'; ctx.strokeStyle='rgba(200,190,185,0.9)'; ctx.lineWidth=3.5; ctx.stroke();
+  ctx.beginPath(); ctx.strokeStyle='rgba(255,255,255,0.9)'; ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.arc(x+r,y+r,r-2,Math.PI,Math.PI*1.5); ctx.stroke();
+  ctx.font='500 36px Inter,-apple-system,sans-serif'; ctx.fillStyle='rgba(255,255,255,0.92)';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.shadowColor='rgba(255,255,255,0.5)'; ctx.shadowBlur=6;
+  ctx.fillText(word,256,y+h/2);
+  const tex=new THREE.CanvasTexture(c); tex.minFilter=THREE.LinearFilter; return tex;
+}
+
+let activeBubbles=[];
+function spawnBubbles(count){
+  for(let i=0;i<count;i++){
+    const theta=Math.random()*Math.PI*2, phi=Math.random()*Math.PI;
+    const sp=new THREE.Vector3(centralSphere.position.x+SPHERE_RADIUS*Math.sin(phi)*Math.cos(theta),centralSphere.position.y+SPHERE_RADIUS*Math.cos(phi),centralSphere.position.z+SPHERE_RADIUS*Math.sin(phi)*Math.sin(theta));
+    const dir=sp.clone().sub(centralSphere.position).normalize();
+    const vel=dir.clone().multiplyScalar(0.02+Math.random()*0.04);
+    vel.x+=(Math.random()-0.5)*0.02; vel.y+=(Math.random()-0.5)*0.02; vel.z+=(Math.random()-0.5)*0.02;
+    const perp=new THREE.Vector3();
+    if(Math.abs(dir.x)<0.9)perp.set(1,0,0);else perp.set(0,1,0);
+    perp.cross(dir).normalize();
+    const word=bubbleWords[Math.floor(Math.random()*bubbleWords.length)];
+    const mat=new THREE.MeshBasicMaterial({map:makeBubbleTex(word),transparent:true,depthWrite:false,side:THREE.DoubleSide});
+    const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.2,0.6),mat);
+    const s=0.6+Math.random()*0.7; mesh.scale.set(s,s,s); mesh.position.copy(sp); scene.add(mesh);
+    activeBubbles.push({mesh,vel,perp,basePos:sp.clone(),baseScale:s,birth:performance.now(),life:4000+Math.random()*2000,wobbleSpeed:1.5+Math.random()*1.5});
+  }
+}
+
+let shockwaves=[];
+const flashLight=new THREE.PointLight(0xEC4899,0,12); scene.add(flashLight);
+let lastLogoFlash=0, lastImpact=0, impactDir=new THREE.Vector3(), impactIntensity=0;
+
+function triggerClick(hitPoint,normal){
+  flashLight.position.copy(hitPoint); flashLight.intensity=7;
+  const pts=[]; for(let i=0;i<=48;i++){const a=(i/48)*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*0.06,Math.sin(a)*0.06,0));}
+  const ring=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending,depthWrite:false}));
+  ring.position.copy(hitPoint).addScaledVector(normal,0.03); ring.lookAt(ring.position.clone().add(normal));
+  scene.add(ring); shockwaves.push({mesh:ring,birth:performance.now(),life:650});
+  spawnBubbles(11); lastLogoFlash=performance.now();
+}
+
+let mouseX=innerWidth/2, mouseY=innerHeight/2, hasMouseMoved=false, mouseInWindow=true;
+window.addEventListener('pointermove',e=>{mouseX=e.clientX;mouseY=e.clientY;hasMouseMoved=true;mouseInWindow=true;externalTarget=null;});
+window.addEventListener('pointerleave',()=>mouseInWindow=false);
+window.addEventListener('pointerenter',()=>mouseInWindow=true);
+
+const raycaster=new THREE.Raycaster(), mouse2d=new THREE.Vector2();
+window.addEventListener('pointerdown',e=>{
+  mouse2d.x=(e.clientX/innerWidth)*2-1; mouse2d.y=-(e.clientY/innerHeight)*2+1;
+  raycaster.setFromCamera(mouse2d,camera);
+  const hits=raycaster.intersectObject(centralSphere);
+  if(hits.length){const pt=hits[0].point,normal=pt.clone().sub(centralSphere.position).normalize();lastImpact=performance.now();impactDir.copy(normal);impactIntensity=0.38;lastLogoFlash=performance.now();triggerClick(pt,normal);}
+});
+
+const clock=new THREE.Clock();
+function tick(){
+  requestAnimationFrame(tick);
+  const now=performance.now(), delta=clock.getDelta(), elapsed=clock.getElapsedTime();
+  let compress=0;
+  if(lastImpact>0){const t=(now-lastImpact)/1000;if(t<0.8){compress=impactIntensity*Math.exp(-t*6.5)*Math.sin(t*22);}else lastImpact=0;}
+  const posAttr=sphereGeo.attributes.position, posArr=posAttr.array;
+  if(Math.abs(compress)>0.001){
+    const localDir=impactDir.clone().applyMatrix4(new THREE.Matrix4().copy(centralSphere.matrixWorld).invert()).normalize();
+    for(let i=0;i<posAttr.count;i++){const v=new THREE.Vector3(initSpherePos[i*3],initSpherePos[i*3+1],initSpherePos[i*3+2]);const d=1-compress*v.clone().normalize().dot(localDir);posArr[i*3]=initSpherePos[i*3]*d;posArr[i*3+1]=initSpherePos[i*3+1]*d;posArr[i*3+2]=initSpherePos[i*3+2]*d;}
+  } else { for(let i=0;i<posAttr.count*3;i++) posArr[i]=initSpherePos[i]; }
+  posAttr.needsUpdate=true; sphereGeo.computeVertexNormals();
+
+  let influence=0,tRX=0,tRY=0;
+  if(hasMouseMoved){
+    const sv=centralSphere.position.clone().project(camera), rect=renderer.domElement.getBoundingClientRect();
+    const scx=rect.left+(sv.x*0.5+0.5)*rect.width, scy=rect.top+(-sv.y*0.5+0.5)*rect.height;
+    const dist=Math.hypot(mouseX-scx,mouseY-scy); influence=1-Math.min(dist/300,1);
+    tRY=(mouseX-scx)*0.003; tRX=(mouseY-scy)*0.003;
+  }
+  centralSphere.rotation.x+=0.045*delta*(1-influence)+(tRX-centralSphere.rotation.x)*0.05*influence;
+  centralSphere.rotation.y+=0.11*delta*(1-influence)+tRY*0.05*influence;
+  outerWire.rotation.x=centralSphere.rotation.x; outerWire.rotation.y-=0.16*delta*(1-influence); outerWire.rotation.z+=0.06*delta;
+
+  const pulse=1+Math.sin(elapsed*0.8)*0.033;
+  centralSphere.scale.setScalar(pulse); outerWire.scale.setScalar(pulse); orbitRing.scale.setScalar(pulse);
+
+  const orbitDist=ORBIT_DIST*pulse; let targetPos=new THREE.Vector3();
+  if(externalTarget){const d=externalTarget.clone().sub(centralSphere.position).normalize();targetPos.copy(centralSphere.position).addScaledVector(d,orbitDist);}
+  else{const t=now*0.001;targetPos.set(centralSphere.position.x+Math.cos(t*0.5)*orbitDist,centralSphere.position.y+Math.sin(t*0.3)*orbitDist*0.4,centralSphere.position.z+Math.sin(t*0.5)*orbitDist);}
+  satGroup.position.lerp(targetPos,0.04); satGroup.rotation.y+=0.8*delta; satGroup.rotation.x+=0.3*delta;
+  satWireMat.color.setHSL((elapsed*0.18)%1, 1.0, 0.92);
+  const depth=(satGroup.position.z-centralSphere.position.z)/SPHERE_RADIUS;
+  const satScale=THREE.MathUtils.mapLinear(depth,-1,1,0.4,1.0)*pulse; satGroup.scale.setScalar(satScale);
+  const satOp=THREE.MathUtils.mapLinear(depth,-1,1,0.35,1.0);
+  satWireMat.opacity=satOp; satMat.opacity=satOp*0.9;
+  satGroup.renderOrder=depth<-0.3?0:10;
+
+  logoMesh.lookAt(camera.position); logoMesh.scale.setScalar(pulse);
+  // Core light — solid white fill, gentle opacity breathe
+  const breathe = 0.82 + Math.sin(elapsed * 1.4) * 0.18;
+  logoMat.color.setRGB(1, 1, 1);
+  logoMat.opacity = breathe;
+  // Click burst
+  const tsf = now - lastLogoFlash;
+  if(tsf < 300){ const p = tsf/300; logoMat.opacity = 1.0; logoMat.color.setRGB(1,1,1); }
+
+  const wAttr=waterGeo.attributes.position, wArr=wAttr.array;
+  for(let i=0;i<wAttr.count;i++){const vx=initWaterPos[i*3],vz=initWaterPos[i*3+1];wArr[i*3+2]=Math.sin(vx*0.08+elapsed*1.2)*0.045+Math.cos(vz*0.075-elapsed*1.08)*0.034+Math.sin((vx+vz)*0.045+elapsed*1.56)*0.023;}
+  waterGeo.computeVertexNormals(); wAttr.needsUpdate=true;
+
+  shockwaves=shockwaves.filter(s=>{const p=(now-s.birth)/s.life;if(p>=1){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();return false;}s.mesh.scale.set(1+p*5,1+p*5,1);s.mesh.material.opacity=(1-p)*0.8;return true;});
+  if(flashLight.intensity>0.05)flashLight.intensity-=38*delta; else flashLight.intensity=0;
+
+  activeBubbles=activeBubbles.filter(b=>{
+    const progress=(now-b.birth)/b.life; if(progress>=1){scene.remove(b.mesh);b.mesh.geometry.dispose();b.mesh.material.map&&b.mesh.material.map.dispose();b.mesh.material.dispose();return false;}
+    b.basePos.add(b.vel.clone().multiplyScalar(delta*60)); b.mesh.position.copy(b.basePos);
+    b.mesh.position.addScaledVector(b.perp,Math.sin(elapsed*b.wobbleSpeed)*0.008);
+    b.mesh.quaternion.copy(camera.quaternion); b.mesh.material.opacity=(1-progress)*0.85; return true;
+  });
+
+  camera.position.x=THREE.MathUtils.lerp(camera.position.x,Math.sin(elapsed*0.1)*1.8,delta*2);
+  camera.position.y=THREE.MathUtils.lerp(camera.position.y,1.8+Math.cos(elapsed*0.14)*0.4,delta*2);
+  camera.position.z=THREE.MathUtils.lerp(camera.position.z,14.5+Math.sin(elapsed*0.08)*1.2,delta*2);
+  camera.lookAt(0,0.45,0);
+  renderer.render(scene,camera);
+}
+tick();
+
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+</script>
+</body>
+</html>
