@@ -220,6 +220,19 @@
     body.is-kr .en { display: none; }
     body.is-kr .kr { display: inline; }
     body.is-kr p.kr, body.is-kr div.kr { display: block; }
+
+    /* ── KOREAN FONT ── */
+    @font-face {
+      font-family: 'EliceDigitalBaeum';
+      src: url('fonts/EliceDigitalBaeum_Regular.ttf') format('truetype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'EliceDigitalBaeum';
+      src: url('fonts/EliceDigitalBaeum_Bold.ttf') format('truetype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    .kr { font-family: 'EliceDigitalBaeum', sans-serif; }
   </style>
 </head>
 <body>
