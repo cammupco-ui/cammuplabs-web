@@ -567,7 +567,8 @@ renderer.setClearColor(0x000000, 0);
 const scene  = new THREE.Scene();
 scene.fog    = new THREE.FogExp2(0xEDEAE6, 0.012);
 const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
-camera.position.set(0, 1.8, 14.5);
+const BASE_CAM_Z = () => innerWidth > 768 ? 12.1 : 14.5;
+camera.position.set(0, 1.8, BASE_CAM_Z());
 
 function makeEnvMap() {
   const c = document.createElement('canvas'); c.width = c.height = 512;
@@ -971,7 +972,7 @@ function tick(){
 
   camera.position.x=THREE.MathUtils.lerp(camera.position.x,Math.sin(elapsed*0.1)*1.8,delta*2);
   camera.position.y=THREE.MathUtils.lerp(camera.position.y,1.8+Math.cos(elapsed*0.14)*0.4,delta*2);
-  camera.position.z=THREE.MathUtils.lerp(camera.position.z,14.5+Math.sin(elapsed*0.08)*1.2,delta*2);
+  camera.position.z=THREE.MathUtils.lerp(camera.position.z,BASE_CAM_Z()+Math.sin(elapsed*0.08)*1.2,delta*2);
   camera.lookAt(0,0.45,0);
   renderer.render(scene,camera);
 }
