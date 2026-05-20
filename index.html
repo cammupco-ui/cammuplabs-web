@@ -37,14 +37,18 @@
       margin: 0 auto; height: 100%;
       display: flex; align-items: center;
       padding: 0 80px; gap: 32px;
+      position: relative;
     }
 
     .nav-logo { flex-shrink: 0; line-height: 0; }
     .nav-logo svg { color: var(--ink); transition: color 0.35s; }
     #nav.bg-dark .nav-logo svg { color: white; }
 
-    /* desktop links */
-    .nav-links { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+    /* desktop links — absolutely centered in nav */
+    .nav-links {
+      display: flex; align-items: center; gap: 36px;
+      position: absolute; left: 50%; transform: translateX(-50%);
+    }
     .nav-links a { font-size: 13px; font-weight: 500; text-decoration: none; color: var(--ink); opacity: 0.65; transition: opacity 0.15s; }
     .nav-links a:hover { opacity: 1; }
     #nav.bg-dark .nav-links a { color: white; }
@@ -127,7 +131,6 @@
     }
     @media (max-width: 479px) {
       #nav-inner { padding: 0 16px; }
-      #hero-content { padding: 0 20px; padding-top: 68px; }
     }
     @media (min-width: 1441px) {
       #nav-inner { padding: 0 80px; }
@@ -138,35 +141,42 @@
     #sphere-canvas { width: 100%; height: 100%; display: block; }
     #hero-overlay {
       position: fixed; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(to right, rgba(237,234,230,0.52) 0%, rgba(237,234,230,0.2) 55%, transparent 100%);
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(253,247,241,0.18) 100%);
     }
-    #hero-content {
-      position: fixed; z-index: 2; top: 0; left: 0; height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 0 80px; padding-top: 68px; max-width: 780px;
+
+    /* headline — centered, upper area above sphere */
+    /* hero layout — flex column fills space between nav and footer */
+    #hero-layout {
+      position: fixed;
+      top: 68px; bottom: 48px;
+      left: 0; right: 0; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+      padding: clamp(20px, 5vh, 60px) 0 clamp(20px, 5vh, 60px);
+      pointer-events: none;
     }
-    .hero-traction {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--pink);
-      margin-bottom: 20px;
+    #hero-headline {
+      flex-shrink: 0;
+      text-align: center;
+      pointer-events: none;
     }
-    .hero-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 5px 14px 5px 5px; border: 1px solid var(--border);
-      border-radius: 100px; background: rgba(253,247,241,0.72);
-      backdrop-filter: blur(8px); font-size: 10px; font-weight: 700;
-      letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink);
-      margin-bottom: 28px; width: fit-content;
+    /* empty zone between headline and chips — sphere renders behind here */
+    #sphere-zone { flex: 1; min-height: 20px; }
+    #hero-chips-wrap {
+      flex-shrink: 0;
+      display: flex; justify-content: center;
+      pointer-events: all;
+      width: 100%;
     }
-    .pill-dot { width: 18px; height: 18px; border-radius: 50%; background: var(--pink); flex-shrink: 0; }
     .hero-hl {
       font-family: 'Anta', 'Inter', sans-serif;
-      font-size: clamp(34px, 4.2vw, 64px); font-weight: 400;
+      font-size: clamp(32px, 4.8vw, 72px); font-weight: 400;
       line-height: 1.08; letter-spacing: -0.01em;
-      color: var(--ink); margin-bottom: 14px;
+      color: var(--ink);
     }
-    .hero-sub { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
-    .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center; max-width: 600px;
+    }
     .chip {
       padding: 7px 16px; border: 1px solid var(--border); border-radius: 100px;
       font-size: 12px; font-weight: 500; color: var(--ink);
@@ -174,51 +184,115 @@
       cursor: pointer; transition: all 0.15s;
     }
     .chip:hover { border-color: var(--ink); background: var(--ink); color: white; }
-    .hero-ctas { display: flex; gap: 12px; align-items: center; }
+
+    /* mobile */
+    @media (max-width: 600px) {
+      .hero-hl { font-size: clamp(28px, 8vw, 44px); }
+      .hero-chips { flex-direction: column; align-items: center; gap: 10px; }
+      .chip { width: 200px; text-align: center; }
+    }
     .btn-dark {
-      padding: 11px 26px; background: var(--ink); color: white;
-      border-radius: 100px; font-size: 13px; font-weight: 500;
-      text-decoration: none; transition: opacity 0.15s; cursor: pointer; border: none;
-      display: inline-block;
+      padding: 10px 24px; background: rgba(255,255,255,0.92); color: var(--ink);
+      border-radius: 100px; font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: all 0.15s; cursor: pointer; border: none;
+      display: inline-block; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
-    .btn-dark:hover { opacity: 0.72; }
-    .btn-ghost {
-      padding: 11px 26px; border: 1px solid rgba(33,28,25,0.3); color: var(--ink);
-      border-radius: 100px; font-size: 13px; font-weight: 500;
-      text-decoration: none; background: rgba(253,247,241,0.45);
-      backdrop-filter: blur(8px); transition: all 0.15s; cursor: pointer;
-      display: inline-block;
-    }
-    .btn-ghost:hover { border-color: var(--ink); }
+    .btn-dark:hover { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
     .hero-founder {
       font-size: 12px; color: var(--muted); margin-top: 24px;
+    }
+
+    /* ── FOOTER ── */
+    #site-footer {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      height: 48px;
+      background: rgba(253,247,241,0.88); backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+    }
+    #footer-inner {
+      max-width: 1440px; min-width: 320px;
+      margin: 0 auto; height: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 80px;
+    }
+    .footer-legal {
+      font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 16px;
+      white-space: nowrap;
+    }
+    .footer-legal span { opacity: 0.7; }
+    .footer-legal a { color: var(--muted); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
+    .footer-legal a:hover { opacity: 1; }
+    .footer-sep { opacity: 0.35 !important; }
+    .footer-talkbingo {
+      display: flex; align-items: center; gap: 7px;
+      text-decoration: none; padding: 5px 13px 5px 5px;
+      border: 1px solid var(--border); border-radius: 100px;
+      background: rgba(253,247,241,0.6); backdrop-filter: blur(8px);
+      transition: all 0.15s; flex-shrink: 0;
+    }
+    .footer-talkbingo:hover { border-color: var(--ink); background: rgba(253,247,241,0.9); }
+    .footer-talkbingo-dot {
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--ink); opacity: 0.25; flex-shrink: 0;
+    }
+    .footer-talkbingo-label {
+      font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.02em;
+    }
+    @media (max-width: 1023px) {
+      #footer-inner { padding: 0 24px; }
+      .footer-legal { gap: 10px; }
+      .footer-legal .hide-mobile { display: none; }
+    }
+    @media (max-width: 479px) {
+      #footer-inner { padding: 0 16px; }
     }
 
     /* ── POPUP ── */
     #popup-overlay {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(33,28,25,0.35); backdrop-filter: blur(6px);
+      background: rgba(20,16,14,0.45); backdrop-filter: blur(12px);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity 0.2s;
     }
     #popup-overlay.open { opacity: 1; pointer-events: all; }
     #popup-panel {
-      background: var(--cream); border-radius: 20px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(28px) saturate(1.6);
+      -webkit-backdrop-filter: blur(28px) saturate(1.6);
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 24px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.5);
       width: 520px; max-width: calc(100vw - 48px); max-height: 78vh;
       display: flex; flex-direction: column;
-      transform: translateY(16px); transition: transform 0.25s ease;
+      opacity: 0; transform: scale(0.06); pointer-events: none;
     }
-    #popup-overlay.open #popup-panel { transform: translateY(0); }
+    #popup-overlay.open #popup-panel {
+      animation: popupEject 0.52s cubic-bezier(0.34,1.28,0.64,1) forwards;
+      pointer-events: all;
+    }
+    #popup-overlay.closing #popup-panel {
+      animation: popupAbsorb 0.28s cubic-bezier(0.4,0,1,1) forwards;
+      pointer-events: none;
+    }
+    @keyframes popupEject {
+      0%   { transform: scale(0.06) rotate(-4deg); opacity: 0; filter: blur(10px); }
+      55%  { transform: scale(1.05) rotate(0.8deg); opacity: 1; filter: blur(0); }
+      75%  { transform: scale(0.97) rotate(-0.3deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
+    }
+    @keyframes popupAbsorb {
+      0%   { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0); }
+      100% { transform: scale(0.06) rotate(4deg); opacity: 0; filter: blur(8px); }
+    }
     #popup-hdr {
-      padding: 18px 22px; border-bottom: 1px solid var(--border);
+      padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.22);
       display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
     }
-    #popup-title { font-size: 16px; font-weight: 600; color: var(--ink); }
-    #popup-close { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--muted); line-height: 1; transition: color 0.15s; }
-    #popup-close:hover { color: var(--ink); }
-    #popup-body { padding: 20px 22px; overflow-y: auto; font-size: 14px; color: var(--muted); line-height: 1.8; white-space: pre-line; }
-    #popup-ft { padding: 16px 22px 20px; border-top: 1px solid var(--border); }
+    #popup-title { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.01em; text-shadow: 0 1px 8px rgba(0,0,0,0.3); }
+    #popup-close { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    #popup-close:hover { background: rgba(255,255,255,0.28); color: #fff; }
+    #popup-body { padding: 20px 24px; overflow-y: auto; font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85; white-space: pre-line; }
+    #popup-ft { padding: 16px 24px 22px; border-top: 1px solid rgba(255,255,255,0.18); }
 
     /* ── LANG ── */
     .kr { display: none; }
@@ -235,7 +309,7 @@
   <div id="nav-inner">
     <!-- Logo -->
     <a href="index.html" class="nav-logo">
-      <svg width="90" height="18" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="120" height="24" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="currentColor"/>
         <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="currentColor"/>
         <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
@@ -292,45 +366,46 @@
 <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
 <div id="sphere-bg"><canvas id="sphere-canvas"></canvas></div>
 <div id="hero-overlay"></div>
-<div id="hero-content">
-  <div class="hero-traction">
-    <span class="en">TalkBingo · Live on App Store · Pilot with 3 Schools</span>
-    <span class="kr">TalkBingo · 앱스토어 출시 · 3개 학교 파일럿</span>
+
+<div id="hero-layout">
+  <!-- headline: above sphere -->
+  <div id="hero-headline">
+    <h1 class="hero-hl en">We build the technology<br>of questions.</h1>
+    <h1 class="hero-hl kr" style="display:none">질문을 연구하는<br>CAMMUPLABS</h1>
   </div>
-  <div class="hero-pill">
-    <div class="pill-dot"></div>
-    <span class="en">QUESTION TECHNOLOGY · 질문 기술</span>
-    <span class="kr">질문 기술 · QUESTION TECHNOLOGY</span>
-  </div>
-  <h1 class="hero-hl en">We build the technology<br>of questions.</h1>
-  <h1 class="hero-hl kr" style="display:none">질문을 연구하는<br>CAMMUPLABS</h1>
-  <p class="hero-sub">
-    <span class="en">질문이 기술이 되는 곳.</span>
-    <span class="kr">Where questions become technology.</span>
-  </p>
-  <div class="hero-chips" id="hero-chips"></div>
-  <div class="hero-ctas">
-    <a href="about.html" class="btn-dark">
-      <span class="en">Read our thesis →</span>
-      <span class="kr">우리의 가설 →</span>
-    </a>
-    <a href="contact.html" class="btn-ghost">
-      <span class="en">Talk to us</span>
-      <span class="kr">문의하기</span>
-    </a>
-  </div>
-  <div class="hero-founder">
-    <span class="en">Founder, CAMMUPLABS · contact@cammuplabs.com</span>
-    <span class="kr">창립자, CAMMUPLABS · contact@cammuplabs.com</span>
+
+  <!-- sphere zone: flex:1 spacer — sphere canvas renders behind this -->
+  <div id="sphere-zone"></div>
+
+  <!-- chips: below sphere -->
+  <div id="hero-chips-wrap">
+    <div class="hero-chips" id="hero-chips"></div>
   </div>
 </div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<footer id="site-footer">
+  <div id="footer-inner">
+    <div class="footer-legal">
+      <span>© 2026 CAMMUPLABS LTD.</span>
+      <span class="footer-sep hide-mobile">·</span>
+      <span class="hide-mobile">Incorporated in Canada</span>
+      <span class="footer-sep hide-mobile">·</span>
+      <a href="mailto:contact@cammuplabs.com" class="hide-mobile">contact@cammuplabs.com</a>
+    </div>
+    <a href="https://www.talkbingo.app/" target="_blank" rel="noopener" class="footer-talkbingo">
+      <div class="footer-talkbingo-dot"></div>
+      <span class="footer-talkbingo-label">TalkBingo →</span>
+    </a>
+  </div>
+</footer>
 
 <!-- ══ THREE.JS ════════════════════════════════════════════════════ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
 // ─── POPUP DATA ───────────────────────────────────────────────────
 const POPUPS = [
-  { id:'problem', url:'about.html',
+  { id:'problem', url:'about.html#problem',
     en:{ label:'The Problem', title:'Conversations are breaking down.',
          body:'62% of Koreans say generational conversation feels "difficult or impossible."\n\nClassroom participation has dropped 41% in a decade. 1 in 3 teens say they can\'t talk to their parents about things that matter.\n\nThe problem isn\'t volume — it\'s depth.',
          cta:'Read full analysis →' },
@@ -338,7 +413,7 @@ const POPUPS = [
          body:'한국인 62%가 세대 간 대화를 "어렵거나 불가능하다"고 느낍니다.\n\n교실 참여율은 10년간 41% 감소했습니다. 청소년 3명 중 1명은 부모에게 중요한 이야기를 할 수 없다고 합니다.\n\n문제는 양이 아니라 깊이입니다.',
          cta:'전체 분석 보기 →' }
   },
-  { id:'thesis', url:'about.html',
+  { id:'thesis', url:'about.html#thesis',
     en:{ label:'Our Thesis', title:'Questions are the technology.',
          body:'The right question shifts perspective, opens empathy, and turns strangers into people who understand each other.\n\nWe\'re building the question-engineering layer of human communication — not just prompts, but the architecture of connection itself.',
          cta:'Read our thesis →' },
@@ -346,15 +421,15 @@ const POPUPS = [
          body:'올바른 질문은 관점을 바꾸고 공감을 열며, 낯선 사람들을 서로를 이해하는 사람들로 만듭니다.\n\n우리는 인간 소통의 질문 엔지니어링 레이어를 구축합니다 — 단순한 프롬프트가 아닌, 연결 자체의 아키텍처입니다.',
          cta:'우리의 가설 보기 →' }
   },
-  { id:'roadmap', url:'vision.html',
+  { id:'roadmap', url:'vision.html#roadmap',
     en:{ label:'Roadmap', title:'Three stages of connection.',
-         body:'2026 — TalkBingo · Live\nGame-based chat platform for real conversation.\n\n2027 — Debate Platform · In Development\nAI-driven structured debate for classrooms.\n\n2028 — Generational AI · R&D\nAI that translates between generations.',
+         body:'2026 — TalkBingo · Live\nA game-based platform where questions spark real conversation.\n\n2027 — Debate Platform · In Development\nAI-driven structured debate designed for classrooms.\n\n2028 — Community Hardware · R&D\nPhysical conversation spaces — TalkBingo-enabled tables and shared devices distributed to community centres.',
          cta:'See full roadmap →' },
     kr:{ label:'로드맵', title:'연결의 세 단계.',
-         body:'2026 — TalkBingo · 출시\n진짜 대화를 위한 게임 기반 채팅 플랫폼.\n\n2027 — 토론 플랫폼 · 개발중\nAI 기반 교실 토론 플랫폼.\n\n2028 — 세대간 AI · 연구중\n세대 간 통역사가 되는 AI.',
+         body:'2026 — TalkBingo · 출시\n질문으로 진짜 대화를 만드는 게임 플랫폼.\n\n2027 — 토론 플랫폼 · 개발중\n교실을 위한 AI 기반 구조화 토론 플랫폼.\n\n2028 — 커뮤니티 하드웨어 · 연구중\n톡빙고를 즐길 수 있는 테이블과 기기를 지역사회 센터에 배치합니다.',
          cta:'전체 로드맵 보기 →' }
   },
-  { id:'whynow', url:'vision.html',
+  { id:'whynow', url:'vision.html#whynow',
     en:{ label:'Why Now', title:'The market is ready.',
          body:'SEL is being legislated across North America and Korea — schools need platforms that teach communication, not just content.\n\nAI now makes 1:1 personalized question generation feasible at scale. The generational divide is becoming a visible social cost.',
          cta:'See why the timing is right →' },
@@ -362,7 +437,7 @@ const POPUPS = [
          body:'북미와 한국 전역에서 SEL이 법제화되고 있습니다 — 학교는 콘텐츠뿐 아니라 소통을 가르치는 플랫폼이 필요합니다.\n\nAI가 대규모 맞춤형 질문 생성을 가능하게 했습니다. 세대 간 격차가 사회적 비용으로 가시화되고 있습니다.',
          cta:'왜 지금인지 보기 →' }
   },
-  { id:'nowlive', url:'products.html',
+  { id:'nowlive', url:'products.html#talkbingo',
     en:{ label:'Now Live', title:'TalkBingo is live.',
          body:'Available now on iOS & Android.\n\nPlayers answer questions, and empathy completes the bingo line. Early users describe it as "the most honest conversation I\'ve had in years."\n\nDebate Platform for Class — coming 2027.',
          cta:'View our products →' },
@@ -386,18 +461,37 @@ const POPUPS = [
 
 // ─── POPUP LOGIC ─────────────────────────────────────────────────
 let isKr = false;
+let _popupTimer = null;
 function openPopup(p) {
+  // Pre-fill content immediately
   const lang = isKr ? p.kr : p.en;
   document.getElementById('popup-title').textContent = lang.title;
   document.getElementById('popup-body').textContent  = lang.body;
   const cta = document.getElementById('popup-cta');
   cta.textContent = lang.cta;
   cta.href = p.url;
-  document.getElementById('popup-overlay').classList.add('open');
+
+  // Cancel any pending open
+  if (_popupTimer) { clearTimeout(_popupTimer); _popupTimer = null; }
+
+  // Step 1: Fire 3D event NOW — no overlay yet, fully visible
+  if (typeof triggerSphereEject === 'function') triggerSphereEject();
+
+  // Step 2: After 650ms (shockwave rings at peak), bring in the popup
+  _popupTimer = setTimeout(() => {
+    _popupTimer = null;
+    const overlay = document.getElementById('popup-overlay');
+    overlay.classList.remove('closing');
+    void overlay.offsetWidth;
+    overlay.classList.add('open');
+  }, 650);
 }
 function closePopup(e) {
   if (!e || e.target === document.getElementById('popup-overlay') || e.currentTarget.id === 'popup-close') {
-    document.getElementById('popup-overlay').classList.remove('open');
+    const overlay = document.getElementById('popup-overlay');
+    overlay.classList.add('closing');
+    if (typeof triggerSphereAbsorb === 'function') triggerSphereAbsorb();
+    setTimeout(() => overlay.classList.remove('open', 'closing'), 300);
   }
 }
 document.addEventListener('keydown', e => { if(e.key==='Escape') closePopup({target:document.getElementById('popup-overlay')}); });
@@ -533,16 +627,50 @@ logoMesh.position.copy(centralSphere.position);
 logoMesh.renderOrder = 10;
 scene.add(logoMesh);
 
-const satRadius = SPHERE_RADIUS*0.15;
-const satGeo    = new THREE.IcosahedronGeometry(satRadius,2);
-const satMat    = new THREE.MeshPhysicalMaterial({ color:0xffffff, transparent:true, opacity:0.85, transmission:0.95, thickness:0.4, roughness:0.05, ior:1.48, envMap:envTex, side:THREE.DoubleSide });
-const satWireGeo = new THREE.IcosahedronGeometry(satRadius*1.025,2);
-const satWireMat = new THREE.MeshBasicMaterial({ color:0xffffff, wireframe:true, transparent:true, opacity:0.7, blending:THREE.AdditiveBlending });
-const satGroup   = new THREE.Group();
-satGroup.add(new THREE.Mesh(satGeo,satMat));
-satGroup.add(new THREE.Mesh(satWireGeo,satWireMat));
-satGroup.position.set(centralSphere.position.x+ORBIT_DIST, centralSphere.position.y, centralSphere.position.z);
-scene.add(satGroup);
+const satRadius  = SPHERE_RADIUS * 0.15;
+const satGeo     = new THREE.IcosahedronGeometry(satRadius, 2);
+const satWireGeo = new THREE.IcosahedronGeometry(satRadius * 1.025, 2);
+
+// Compute two orthonormal basis vectors for an inclined orbit plane
+function orbitBasis(normal) {
+  const n = normal.clone().normalize();
+  const ref = (Math.abs(n.y) < 0.85) ? new THREE.Vector3(0,1,0) : new THREE.Vector3(1,0,0);
+  const u = new THREE.Vector3().crossVectors(ref, n).normalize();
+  const v = new THREE.Vector3().crossVectors(n, u).normalize();
+  return { u, v };
+}
+
+// 3 independent circular orbits — always outside the main sphere
+// radius must stay > SPHERE_RADIUS (ORBIT_DIST = SPHERE_RADIUS * 1.38, all safe)
+// hue: HSL 0–1 used for animated color breathing in tick
+const SAT_DEFS = [
+  { hue:0.94, speed:0.44, radius:ORBIT_DIST,      normal:new THREE.Vector3(0.15,1.0,0.1),  startPhase:0   }, // TalkBingo — soft pink
+  { hue:0.60, speed:0.73, radius:ORBIT_DIST*1.18, normal:new THREE.Vector3(0.9,0.35,0.2),  startPhase:2.1 }, // Debate — soft blue
+  { hue:0.33, speed:0.26, radius:ORBIT_DIST*1.05, normal:new THREE.Vector3(0.15,0.25,1.0), startPhase:4.2 }, // Community — soft sage
+];
+
+const satellites = SAT_DEFS.map(def => {
+  const mat = new THREE.MeshPhysicalMaterial({
+    color:0xffffff, transparent:true, opacity:0.75,
+    transmission:0.92, thickness:0.4, roughness:0.05,
+    ior:1.48, envMap:envTex, side:THREE.DoubleSide
+  });
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color().setHSL(def.hue, 0.60, 0.62),
+    wireframe:true, transparent:true, opacity:0.70,
+    blending:THREE.AdditiveBlending
+  });
+  const { u, v } = orbitBasis(def.normal);
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(satGeo, mat));
+  group.add(new THREE.Mesh(satWireGeo, wireMat));
+  // start position on its own orbit plane
+  group.position.copy(centralSphere.position)
+    .addScaledVector(u, Math.cos(def.startPhase) * def.radius)
+    .addScaledVector(v, Math.sin(def.startPhase) * def.radius);
+  scene.add(group);
+  return { group, mat, wireMat, u, v, hue: def.hue, phase: def.startPhase, speed: def.speed, radius: def.radius };
+});
 
 const orbitPts = [];
 for(let i=0;i<=64;i++){const a=(i/64)*Math.PI*2; orbitPts.push(new THREE.Vector3(Math.cos(a)*ORBIT_DIST,0,Math.sin(a)*ORBIT_DIST));}
@@ -554,6 +682,38 @@ window.moveSatelliteTo = (wp) => {
   if(wp&&typeof wp.x==='number'){const d=new THREE.Vector3().subVectors(new THREE.Vector3(wp.x,wp.y,wp.z),centralSphere.position).normalize(); externalTarget=centralSphere.position.clone().addScaledVector(d,ORBIT_DIST);}
   else externalTarget=null;
 };
+
+// ── BACKGROUND SPHERE — large cage surrounding the whole scene ────
+const BG_R = 13;
+const bgGeo = new THREE.IcosahedronGeometry(BG_R, 2); // 80 triangles
+const bgSphere = new THREE.Mesh(bgGeo, new THREE.MeshBasicMaterial({
+  color: 0xB8B0A8, wireframe: true, transparent: true, opacity: 0.11, depthWrite: false
+}));
+scene.add(bgSphere);
+
+// Extract triangle positions (in bgSphere local space)
+const _bgP = bgGeo.attributes.position;
+const bgTris = [];
+for (let i = 0; i < _bgP.count / 3; i++) {
+  bgTris.push([
+    new THREE.Vector3().fromBufferAttribute(_bgP, i*3),
+    new THREE.Vector3().fromBufferAttribute(_bgP, i*3+1),
+    new THREE.Vector3().fromBufferAttribute(_bgP, i*3+2),
+  ]);
+}
+
+// 5 glow-face slots — parented to bgSphere so they rotate with it
+const glowFaces = Array.from({length:5}, (_,i) => {
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(9), 3));
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0xD4C4A8, transparent: true, opacity: 0,
+    side: THREE.DoubleSide, depthWrite: false, blending: THREE.NormalBlending
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  bgSphere.add(mesh); // child of bgSphere → rotates together
+  return { mesh, mat, phase:'idle', timer: i*1.5 + Math.random()*2 };
+});
 
 const wSeg=40, waterGeo=new THREE.PlaneGeometry(160,160,wSeg,wSeg);
 waterGeo.rotateX(-Math.PI/2);
@@ -605,6 +765,55 @@ let shockwaves=[];
 const flashLight=new THREE.PointLight(0xEC4899,0,12); scene.add(flashLight);
 let lastLogoFlash=0, lastImpact=0, impactDir=new THREE.Vector3(), impactIntensity=0;
 
+// ─── ORBIT PHASE (variable speed) ─────────────────────────────
+// orbitPhase removed — each satellite now has its own sat.phase
+let orbitSpeedMult = 1.0;
+let satBurstEnd = 0;
+let satAbsorbEnd = 0;
+
+// ─── SPHERE EJECT (popup open) ────────────────────────────────
+function triggerSphereEject() {
+  satBurstEnd = performance.now() + 1600;
+  lastLogoFlash = performance.now();
+  flashLight.position.copy(centralSphere.position);
+  flashLight.intensity = 7;
+  const colors = [0xffffff, 0xEC4899, 0xffffff];
+  for (let r = 0; r < 3; r++) {
+    (function(idx){ setTimeout(() => {
+      const pts = [];
+      for (let i = 0; i <= 64; i++) { const a=(i/64)*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*0.12,Math.sin(a)*0.12,0)); }
+      const ring = new THREE.LineLoop(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color: colors[idx], transparent:true, opacity:1.0, blending:THREE.AdditiveBlending, depthWrite:false })
+      );
+      ring.position.copy(centralSphere.position);
+      ring.lookAt(camera.position);
+      scene.add(ring);
+      shockwaves.push({ mesh:ring, birth:performance.now(), life:900 });
+    }, idx * 110); })(r);
+  }
+  spawnBubbles(9);
+}
+
+// ─── SPHERE ABSORB (popup close) ──────────────────────────────
+function triggerSphereAbsorb() {
+  satAbsorbEnd = performance.now() + 900;
+  lastLogoFlash = performance.now();
+  flashLight.position.copy(centralSphere.position);
+  flashLight.intensity = 3;
+  const pts = [];
+  for (let i = 0; i <= 64; i++) { const a=(i/64)*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*0.5,Math.sin(a)*0.5,0)); }
+  const ring = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({ color: 0xEC4899, transparent:true, opacity:0.7, blending:THREE.AdditiveBlending, depthWrite:false })
+  );
+  ring.position.copy(centralSphere.position);
+  ring.lookAt(camera.position);
+  scene.add(ring);
+  // absorb ring shrinks instead of growing (custom type)
+  shockwaves.push({ mesh:ring, birth:performance.now(), life:600, absorb:true });
+}
+
 function triggerClick(hitPoint,normal){
   flashLight.position.copy(hitPoint); flashLight.intensity=7;
   const pts=[]; for(let i=0;i<=48;i++){const a=(i/48)*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*0.06,Math.sin(a)*0.06,0));}
@@ -654,16 +863,41 @@ function tick(){
   const pulse=1+Math.sin(elapsed*0.8)*0.033;
   centralSphere.scale.setScalar(pulse); outerWire.scale.setScalar(pulse); orbitRing.scale.setScalar(pulse);
 
-  const orbitDist=ORBIT_DIST*pulse; let targetPos=new THREE.Vector3();
-  if(externalTarget){const d=externalTarget.clone().sub(centralSphere.position).normalize();targetPos.copy(centralSphere.position).addScaledVector(d,orbitDist);}
-  else{const t=now*0.001;targetPos.set(centralSphere.position.x+Math.cos(t*0.5)*orbitDist,centralSphere.position.y+Math.sin(t*0.3)*orbitDist*0.4,centralSphere.position.z+Math.sin(t*0.5)*orbitDist);}
-  satGroup.position.lerp(targetPos,0.04); satGroup.rotation.y+=0.8*delta; satGroup.rotation.x+=0.3*delta;
-  satWireMat.color.setHSL((elapsed*0.18)%1, 1.0, 0.92);
-  const depth=(satGroup.position.z-centralSphere.position.z)/SPHERE_RADIUS;
-  const satScale=THREE.MathUtils.mapLinear(depth,-1,1,0.4,1.0)*pulse; satGroup.scale.setScalar(satScale);
-  const satOp=THREE.MathUtils.mapLinear(depth,-1,1,0.35,1.0);
-  satWireMat.opacity=satOp; satMat.opacity=satOp*0.9;
-  satGroup.renderOrder=depth<-0.3?0:10;
+  // orbit speed burst decay
+  const burstActive = now < satBurstEnd;
+  const absorbActive = now < satAbsorbEnd;
+  if (burstActive) {
+    const bp = (now - (satBurstEnd - 1600)) / 1600;
+    orbitSpeedMult = 1.0 + 5.0 * Math.exp(-bp * 3.5);
+  } else if (absorbActive) {
+    const ap = (now - (satAbsorbEnd - 900)) / 900;
+    orbitSpeedMult = 1.0 + 2.5 * Math.exp(-ap * 4.0);
+  } else {
+    orbitSpeedMult = 1.0;
+  }
+  // individual sat.phase increments happen inside the satellites.forEach below
+
+  satellites.forEach(sat => {
+    // Each satellite advances its own phase at its own speed
+    sat.phase += delta * sat.speed * orbitSpeedMult;
+    const dist = sat.radius * pulse;
+    // Perfect circle — always stays on the surface of its orbital sphere
+    const tp = centralSphere.position.clone()
+      .addScaledVector(sat.u, Math.cos(sat.phase) * dist)
+      .addScaledVector(sat.v, Math.sin(sat.phase) * dist);
+    sat.group.position.lerp(tp, 0.04);
+    sat.group.rotation.y += 0.8 * delta;
+    sat.group.rotation.x += 0.3 * delta;
+    const depth = (sat.group.position.z - centralSphere.position.z) / SPHERE_RADIUS;
+    sat.group.scale.setScalar(THREE.MathUtils.mapLinear(depth,-1,1,0.4,1.0) * pulse);
+    const op = THREE.MathUtils.mapLinear(depth,-1,1,0.35,1.0);
+    // Gentle brightness breathing — each satellite on its own rhythm
+    const brightness = 0.52 + Math.sin(elapsed * 0.85 + satellites.indexOf(sat) * 2.1) * 0.20;
+    sat.wireMat.color.setHSL(sat.hue, 0.60, brightness);
+    sat.wireMat.opacity = op * 0.72;
+    sat.mat.opacity    = op * 0.6;
+    sat.group.renderOrder = depth < -0.3 ? 0 : 10;
+  });
 
   logoMesh.lookAt(camera.position); logoMesh.scale.setScalar(pulse);
   // Core light — solid white fill, gentle opacity breathe
@@ -674,11 +908,40 @@ function tick(){
   const tsf = now - lastLogoFlash;
   if(tsf < 300){ const p = tsf/300; logoMat.opacity = 1.0; logoMat.color.setRGB(1,1,1); }
 
+  // Background sphere — slow drift rotation
+  bgSphere.rotation.y += delta * 0.018;
+  bgSphere.rotation.x += delta * 0.007;
+
+  // Glow faces — random triangles light up and fade
+  glowFaces.forEach(face => {
+    face.timer -= delta;
+    if (face.phase === 'idle' && face.timer <= 0) {
+      const tri = bgTris[Math.floor(Math.random() * bgTris.length)];
+      const pos = face.mesh.geometry.attributes.position;
+      pos.setXYZ(0, tri[0].x, tri[0].y, tri[0].z);
+      pos.setXYZ(1, tri[1].x, tri[1].y, tri[1].z);
+      pos.setXYZ(2, tri[2].x, tri[2].y, tri[2].z);
+      pos.needsUpdate = true;
+      face.mat.opacity = 0;
+      face.phase = 'fadein';
+      face.timer = 1.0 + Math.random() * 2.0; // hold duration
+    }
+    if (face.phase === 'fadein') {
+      face.mat.opacity = Math.min(face.mat.opacity + delta * 0.06, 0.038);
+      if (face.mat.opacity >= 0.038) { face.mat.opacity = 0.038; face.phase = 'hold'; }
+    } else if (face.phase === 'hold' && face.timer <= 0) {
+      face.phase = 'fadeout';
+    } else if (face.phase === 'fadeout') {
+      face.mat.opacity = Math.max(face.mat.opacity - delta * 0.065, 0);
+      if (face.mat.opacity <= 0) { face.phase = 'idle'; face.timer = 2.5 + Math.random() * 5.5; }
+    }
+  });
+
   const wAttr=waterGeo.attributes.position, wArr=wAttr.array;
   for(let i=0;i<wAttr.count;i++){const vx=initWaterPos[i*3],vz=initWaterPos[i*3+1];wArr[i*3+2]=Math.sin(vx*0.08+elapsed*1.2)*0.045+Math.cos(vz*0.075-elapsed*1.08)*0.034+Math.sin((vx+vz)*0.045+elapsed*1.56)*0.023;}
   waterGeo.computeVertexNormals(); wAttr.needsUpdate=true;
 
-  shockwaves=shockwaves.filter(s=>{const p=(now-s.birth)/s.life;if(p>=1){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();return false;}s.mesh.scale.set(1+p*5,1+p*5,1);s.mesh.material.opacity=(1-p)*0.8;return true;});
+  shockwaves=shockwaves.filter(s=>{const p=(now-s.birth)/s.life;if(p>=1){scene.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();return false;}if(s.absorb){const sc=Math.max(0.05,(1-p)*5+0.05);s.mesh.scale.set(sc,sc,1);s.mesh.material.opacity=p<0.3?p*3*0.7:(1-p)*0.7;}else{s.mesh.scale.set(1+p*6,1+p*6,1);s.mesh.material.opacity=(1-p)*0.9;}return true;});
   if(flashLight.intensity>0.05)flashLight.intensity-=38*delta; else flashLight.intensity=0;
 
   activeBubbles=activeBubbles.filter(b=>{
@@ -696,10 +959,39 @@ function tick(){
 }
 tick();
 
+// ─── SPHERE VERTICAL CENTERING ───────────────────────────────────
+// Positions the sphere so it sits exactly in the center of #sphere-zone
+// (the flex spacer between the headline and the chip buttons).
+function positionSphereToCenter() {
+  const zone = document.getElementById('sphere-zone');
+  if (!zone || !centralSphere) return;
+  const rect = zone.getBoundingClientRect();
+  const targetScreenY = rect.top + rect.height / 2;
+  // Convert to NDC (+1 = top of screen, -1 = bottom)
+  const targetNDC = 1 - (targetScreenY / window.innerHeight) * 2;
+  // Iterative solver: nudge sphere.y until it projects to targetNDC
+  for (let i = 0; i < 10; i++) {
+    const curr = centralSphere.position.clone().project(camera).y;
+    const above = new THREE.Vector3(centralSphere.position.x, centralSphere.position.y + 0.1, centralSphere.position.z).project(camera).y;
+    const slope = (above - curr) / 0.1;
+    if (Math.abs(slope) < 1e-6) break;
+    centralSphere.position.y += (targetNDC - curr) / slope;
+    if (Math.abs(targetNDC - centralSphere.position.clone().project(camera).y) < 0.002) break;
+  }
+  // Sync all objects attached to sphere position
+  outerWire.position.copy(centralSphere.position);
+  orbitRing.position.copy(centralSphere.position);
+  logoMesh.position.copy(centralSphere.position);
+}
+
 window.addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight);
+  positionSphereToCenter();
 });
+
+// Initial centering (after fonts/layout settle)
+requestAnimationFrame(() => requestAnimationFrame(positionSphereToCenter));
 </script>
 </body>
 </html>

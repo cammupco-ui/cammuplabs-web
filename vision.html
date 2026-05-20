@@ -15,7 +15,7 @@
       --navy: #1E2A44; --muted: #6B6159; --border: #EDE5DB;
       --sage: #5A7A5A;
     }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
     body { font-family: 'Inter', 'Alexandria', sans-serif; background: var(--cream); color: var(--ink); min-width: 320px; }
 
     /* ── NAV ── */
@@ -27,10 +27,11 @@
     #nav-inner {
       max-width: 1440px; min-width: 320px; margin: 0 auto; height: 100%;
       display: flex; align-items: center; padding: 0 80px; gap: 32px;
+      position: relative;
     }
     .nav-logo { flex-shrink: 0; line-height: 0; text-decoration: none; }
     .nav-logo svg { color: var(--ink); }
-    .nav-links { display: flex; align-items: center; gap: 36px; margin: 0 auto; }
+    .nav-links { display: flex; align-items: center; gap: 36px; position: absolute; left: 50%; transform: translateX(-50%); }
     .nav-links a {
       font-size: 13px; font-weight: 500; text-decoration: none; color: var(--ink);
       opacity: 0.55; transition: opacity 0.15s;
@@ -45,6 +46,18 @@
     #lang-btn .sep { color: var(--muted); }
     #lang-btn .active { font-weight: 700; }
     #lang-btn .inactive { color: var(--muted); }
+    .nav-home {
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      text-decoration: none; transition: opacity 0.15s; white-space: nowrap;
+      padding-right: 20px; border-right: 1px solid var(--border); margin-right: 4px;
+    }
+    .nav-home:hover { opacity: 1; color: var(--ink); }
+    .mob-home {
+      display: block; padding: 12px 20px; background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7); border-radius: 12px; font-size: 14px; font-weight: 500;
+      text-decoration: none; text-align: center; margin-bottom: 4px; transition: opacity 0.15s;
+    }
+    .mob-home:hover { opacity: 0.8; }
     .nav-cta {
       padding: 8px 20px; background: var(--ink); color: white;
       border-radius: 100px; font-size: 13px; font-weight: 500;
@@ -96,8 +109,8 @@
     .page-body { padding-top: 68px; }
 
     /* Hero */
-    .pg-hero { padding: 120px 80px; background: var(--cream); }
-    .pg-hero-inner { max-width: 1440px; margin: 0 auto; }
+    .pg-hero { padding: 120px 0; background: var(--cream); }
+    .pg-hero-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; }
     .pg-tag {
       font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--pink); margin-bottom: 24px;
@@ -111,8 +124,8 @@
     .pg-sub { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.6; }
 
     /* Roadmap */
-    .sec-roadmap { padding: 120px 80px; background: white; }
-    .sec-roadmap-inner { max-width: 1440px; margin: 0 auto; }
+    .sec-roadmap { padding: 120px 0; background: white; }
+    .sec-roadmap-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; }
     .sec-tag {
       font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--pink); margin-bottom: 20px;
@@ -152,8 +165,8 @@
     }
 
     /* Why Now */
-    .sec-whynow { padding: 120px 80px; background: var(--ink); }
-    .sec-whynow-inner { max-width: 1440px; margin: 0 auto; }
+    .sec-whynow { padding: 120px 0; background: var(--ink); }
+    .sec-whynow-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; }
     .sec-whynow .sec-tag { color: var(--pink); }
     .sec-whynow .sec-hl { color: white; }
     .sec-whynow .sec-sub { color: rgba(255,255,255,0.42); }
@@ -167,9 +180,9 @@
     .wn-body { font-size: 14px; color: rgba(255,255,255,0.48); line-height: 1.8; }
 
     /* Footer */
-    footer { padding: 40px 80px; background: var(--cream); border-top: 1px solid var(--border); }
+    footer { padding: 40px 0; background: var(--cream); border-top: 1px solid var(--border); }
     .footer-inner {
-      max-width: 1440px; margin: 0 auto;
+      max-width: 1440px; margin: 0 auto; padding: 0 80px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .footer-right { text-align: right; }
@@ -178,20 +191,28 @@
 
     /* Responsive */
     @media (max-width: 1023px) {
-      .pg-hero { padding: 80px 40px; }
-      .sec-roadmap { padding: 80px 40px; }
-      .sec-whynow { padding: 80px 40px; }
-      footer { padding: 32px 40px; }
+      .pg-hero { padding: 80px 0; }
+      .pg-hero-inner { padding: 0 40px; }
+      .sec-roadmap { padding: 80px 0; }
+      .sec-roadmap-inner { padding: 0 40px; }
+      .sec-whynow { padding: 80px 0; }
+      .sec-whynow-inner { padding: 0 40px; }
+      footer { padding: 32px 0; }
+      .footer-inner { padding: 0 40px; }
       .rm-track { flex-direction: column; gap: 40px; }
       .rm-track::before { display: none; }
       .rm-stage { padding-right: 0; }
       .wn-cols { flex-direction: column; gap: 32px; }
     }
     @media (max-width: 479px) {
-      .pg-hero { padding: 60px 20px; }
-      .sec-roadmap { padding: 60px 20px; }
-      .sec-whynow { padding: 60px 20px; }
-      footer { padding: 28px 20px; }
+      .pg-hero { padding: 60px 0; }
+      .pg-hero-inner { padding: 0 20px; }
+      .sec-roadmap { padding: 60px 0; }
+      .sec-roadmap-inner { padding: 0 20px; }
+      .sec-whynow { padding: 60px 0; }
+      .sec-whynow-inner { padding: 0 20px; }
+      footer { padding: 28px 0; }
+      .footer-inner { padding: 0 20px; }
     }
 
     /* Lang */
@@ -207,13 +228,14 @@
 <header id="nav">
   <div id="nav-inner">
     <a href="index.html" class="nav-logo">
-      <svg width="90" height="18" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="120" height="24" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="currentColor"/>
         <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="currentColor"/>
         <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
       </svg>
     </a>
     <nav class="nav-links">
+      <a href="index.html" class="nav-home"><span class="en">← Home</span><span class="kr">← 홈</span></a>
       <a href="about.html"><span class="en">About</span><span class="kr">회사소개</span></a>
       <a href="vision.html" class="active"><span class="en">Vision</span><span class="kr">비전</span></a>
       <a href="products.html"><span class="en">Products</span><span class="kr">제품</span></a>
@@ -235,6 +257,7 @@
 </header>
 
 <div id="mobile-menu">
+  <a href="index.html" class="mob-home"><span class="en">← Home</span><span class="kr">← 홈</span></a>
   <a href="about.html" class="mob-link"><span class="en">About</span><span class="kr">회사소개</span></a>
   <a href="vision.html" class="mob-link"><span class="en">Vision</span><span class="kr">비전</span></a>
   <a href="products.html" class="mob-link"><span class="en">Products</span><span class="kr">제품</span></a>
@@ -260,7 +283,7 @@
   </section>
 
   <!-- Roadmap -->
-  <section class="sec-roadmap">
+  <section id="roadmap" class="sec-roadmap">
     <div class="sec-roadmap-inner">
       <p class="sec-tag"><span class="en">01 / ROADMAP</span><span class="kr">01 / 로드맵</span></p>
       <h2 class="sec-hl">
@@ -268,8 +291,8 @@
         <span class="kr">연결의 세 단계.</span>
       </h2>
       <p class="sec-sub">
-        <span class="en">우리는 어디로 갑니다.</span>
-        <span class="kr">Where we're going.</span>
+        <span class="en">This is where we're going.</span>
+        <span class="kr">우리가 가는 방향입니다.</span>
       </p>
       <div class="rm-track">
         <!-- Stage 1 -->
@@ -279,8 +302,8 @@
           <div class="rm-name">TalkBingo</div>
           <span class="rm-badge live"><span class="en">LIVE</span><span class="kr">출시</span></span>
           <div class="rm-desc">
-            <span class="en">A game-based chat platform for real conversation. B2C — players answer questions, and empathy completes the bingo line. Available now on iOS and Android. Piloting with 3 schools in Korea.</span>
-            <span class="kr">진짜 대화를 위한 게임 기반 채팅 플랫폼. B2C — 플레이어가 질문에 답하면 공감이 빙고를 완성합니다. iOS와 Android에서 지금 이용 가능. 한국 3개 학교와 파일럿 진행 중.</span>
+            <span class="en">A game-based platform where players answer questions, and empathy completes the bingo line. Available now on iOS and Android.</span>
+            <span class="kr">플레이어가 질문에 답하고 공감이 빙고를 완성하는 게임 플랫폼. iOS와 Android에서 지금 만나볼 수 있습니다.</span>
           </div>
         </div>
         <!-- Stage 2 -->
@@ -298,23 +321,23 @@
         <div class="rm-stage">
           <div class="rm-dot rnd"></div>
           <div class="rm-yr">2028 · Stage 3.0</div>
-          <div class="rm-name">Generational AI</div>
+          <div class="rm-name">Community Hardware</div>
           <span class="rm-badge rnd">R&amp;D</span>
           <div class="rm-desc">
-            <span class="en">An AI that translates between generations. B2B / Research. Built on the data and question corpus accumulated from Stages 1 and 2.</span>
-            <span class="kr">세대 간 통역사가 되는 AI. B2B / 연구. 1단계와 2단계에서 축적된 데이터와 질문 코퍼스를 기반으로 구축됩니다.</span>
+            <span class="en">We design and distribute physical conversation spaces — TalkBingo-enabled tables, kiosks, and shared devices placed in community centres, libraries, and care homes. The goal: embed the technology of questions into the physical spaces where generations meet.</span>
+            <span class="kr">질문 기술을 공간으로 확장합니다. 톡빙고를 즐길 수 있는 테이블, 키오스크, 공유 기기를 지역사회 센터와 도서관, 요양 시설에 배치합니다. 세대가 마주치는 물리적 공간에 연결의 기술을 심는 것이 목표입니다.</span>
           </div>
         </div>
       </div>
       <p class="rm-note">
-        <span class="en">Each stage builds the data and questions for the next.</span>
-        <span class="kr">각 단계는 다음 단계를 위한 데이터와 질문을 구축합니다.</span>
+        <span class="en">Each stage builds on the questions and connections from the last.</span>
+        <span class="kr">각 단계는 이전 단계에서 쌓인 질문과 연결 위에 구축됩니다.</span>
       </p>
     </div>
   </section>
 
   <!-- Why Now -->
-  <section class="sec-whynow">
+  <section id="whynow" class="sec-whynow">
     <div class="sec-whynow-inner">
       <p class="sec-tag"><span class="en">02 / WHY NOW</span><span class="kr">02 / 왜 지금인가</span></p>
       <h2 class="sec-hl">
@@ -322,8 +345,8 @@
         <span class="kr">시장이 준비됐습니다.</span>
       </h2>
       <p class="sec-sub">
-        <span class="en">시장이 준비됐습니다.</span>
-        <span class="kr">The market is ready.</span>
+        <span class="en">The conditions have never been better.</span>
+        <span class="kr">지금이 바로 그 타이밍입니다.</span>
       </p>
       <div class="wn-cols">
         <div class="wn-col">
