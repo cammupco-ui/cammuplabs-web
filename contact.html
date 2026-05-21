@@ -113,9 +113,16 @@
       background: var(--cream);
       min-height: calc(100vh - 68px);
       display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .sec-contact::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url('images/hero-bg-bubbles.jpg') center center / cover no-repeat;
+      opacity: 0.13;
     }
     .sec-contact-inner {
       max-width: 1440px; margin: 0 auto; width: 100%; padding: 0 80px;
+      position: relative; z-index: 1;
       display: flex; gap: 100px; align-items: flex-start;
     }
     .ct-left { flex: 1; max-width: 480px; }

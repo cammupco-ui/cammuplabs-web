@@ -114,8 +114,14 @@
     .pg-hero {
       padding: 120px 0;
       background: var(--cream);
+      position: relative; overflow: hidden;
     }
-    .pg-hero-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; }
+    .pg-hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: url('images/hero-bg-bubbles.jpg') center center / cover no-repeat;
+      opacity: 0.13;
+    }
+    .pg-hero-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; position: relative; z-index: 1; }
     .pg-tag {
       font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--pink); margin-bottom: 24px;
