@@ -139,8 +139,13 @@
     /* ── HERO ── */
     #sphere-bg { position: fixed; inset: 0; z-index: 0; }
     #sphere-canvas { width: 100%; height: 100%; display: block; }
-    #hero-overlay {
+    #hero-bg-img {
       position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: url('images/hero-bg-bubbles.jpg') center center / cover no-repeat;
+      opacity: 0.13;
+    }
+    #hero-overlay {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none;
       background: radial-gradient(ellipse at center, transparent 30%, rgba(253,247,241,0.18) 100%);
     }
 
@@ -149,7 +154,7 @@
     #hero-layout {
       position: fixed;
       top: 68px; bottom: 48px;
-      left: 0; right: 0; z-index: 2;
+      left: 0; right: 0; z-index: 3;
       display: flex; flex-direction: column; align-items: center;
       padding: clamp(20px, 5vh, 60px) 0 clamp(20px, 5vh, 60px);
       pointer-events: none;
@@ -378,6 +383,7 @@
 
 <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
 <div id="sphere-bg"><canvas id="sphere-canvas"></canvas></div>
+<div id="hero-bg-img"></div>
 <div id="hero-overlay"></div>
 
 <div id="hero-layout">
