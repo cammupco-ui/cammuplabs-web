@@ -153,7 +153,19 @@
     .prod-acc.pink { background: var(--pink); }
     .prod-acc.navy { background: #5B7FBF; }
     .prod-acc.sage { background: #8FA48F; }
-    .prod-card-body { padding: 48px 52px; flex: 1; }
+    .prod-card-body { padding: 48px 52px; flex: 1; min-width: 0; }
+
+    /* Phone visual column */
+    .prod-card-visual {
+      flex-shrink: 0; width: 260px;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding: 40px 40px 0; overflow: hidden;
+    }
+    .prod-screenshot {
+      width: 200px; display: block;
+      border-radius: 32px;
+      box-shadow: 0 20px 56px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.12);
+    }
     .prod-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
     .prod-tag {
       padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 600;
@@ -242,6 +254,9 @@
       .footer-inner { padding: 0 40px; }
       .prod-card-body { padding: 32px 28px; }
       .coming-card { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 767px) {
+      .prod-card-visual { display: none; }
     }
     @media (max-width: 479px) {
       .pg-hero { padding: 60px 0; }
@@ -381,6 +396,9 @@
               <span class="kr">웹에서 시작하기 →</span>
             </a>
           </div>
+        </div>
+        <div class="prod-card-visual">
+          <img src="images/talkbingo-screenshot.png" alt="TalkBingo app screenshot" class="prod-screenshot">
         </div>
       </div>
     </div>
