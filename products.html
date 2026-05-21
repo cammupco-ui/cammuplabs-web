@@ -134,26 +134,20 @@
     }
 
     /* Large product card */
-    /* Card — light (TalkBingo) */
+    /* Cards */
     .prod-card-large {
       border-radius: 24px; overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08); background: #FAF5EF;
+      border: 1px solid var(--border); background: #FAF5EF;
       display: flex; transition: box-shadow 0.25s, transform 0.25s;
     }
-    .prod-card-large:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.35); transform: translateY(-3px); }
-
-    /* Card — dark (Debate Platform) */
-    .prod-card-large.card-dark {
-      background: var(--navy); border-color: rgba(255,255,255,0.1);
-    }
-    .card-dark .prod-name { color: white; }
-    .card-dark .prod-desc { color: rgba(255,255,255,0.55); }
-    .card-dark .prod-feat-val { color: rgba(255,255,255,0.85); }
-    .card-dark .prod-tag { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.45); }
-    .card-dark .prod-tag.dev-tag { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.2); }
-    .card-dark .btn-dark { background: white; color: var(--ink); }
-    .card-dark .btn-ghost { border-color: rgba(255,255,255,0.35); color: white; }
-    .card-dark .btn-ghost:hover { border-color: white; }
+    .prod-card-large:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.18); transform: translateY(-3px); }
+    /* Card — navy (Debate Platform) */
+    .prod-card-large.card-navy { background: #ECF0FA; border-color: #D5DDEF; }
+    .card-navy .prod-acc.navy { background: #4A6BB5; }
+    .card-navy .prod-tag.dev-tag { background: rgba(74,107,181,0.1); color: #4A6BB5; border-color: rgba(74,107,181,0.25); }
+    /* Card — sage (Community Hardware) */
+    .prod-card-large.card-sage { background: #ECF4EC; border-color: #CFDECF; }
+    .card-sage .prod-tag.rnd-tag { background: rgba(90,122,90,0.1); color: var(--sage); border-color: rgba(90,122,90,0.25); }
 
     .prod-acc { width: 8px; flex-shrink: 0; }
     .prod-acc.pink { background: var(--pink); }
@@ -396,7 +390,7 @@
   <section class="sec-product">
     <div class="sec-product-inner">
       <p class="sec-tag"><span class="en">02 / CLASSROOM DEBATE PLATFORM</span><span class="kr">02 / 교실 토론 플랫폼</span></p>
-      <div class="prod-card-large card-dark">
+      <div class="prod-card-large card-navy">
         <div class="prod-acc navy"></div>
         <div class="prod-card-body">
           <div class="prod-tags">
@@ -442,30 +436,35 @@
     </div>
   </section>
 
-  <!-- Coming Next -->
-  <section class="sec-coming">
-    <div class="sec-coming-inner">
+  <!-- Community Hardware -->
+  <section class="sec-product">
+    <div class="sec-product-inner">
       <p class="sec-tag"><span class="en">03 / COMING NEXT</span><span class="kr">03 / 다음 단계</span></p>
-      <h2 class="sec-coming-hl">
-        <span class="en">Stage 3.0: Community Hardware</span>
-        <span class="kr">3단계: 커뮤니티 하드웨어</span>
-      </h2>
-      <p class="sec-coming-sub">
-        <span class="en">68,000 senior centers and a ₩451.3B ($340M USD) government loneliness budget in Seoul alone — with no scalable deployment tool. The question engine moves into physical space: hardware installed in the public spaces where generations meet but rarely talk.</span>
-        <span class="kr">전국 68,000개 경로당과 서울시 5년간 4,513억 원 외로움 해소 예산이 있는 시장입니다. 질문 기술을 물리적 공간으로 확장합니다 — 경로당, 도서관, 지역사회 센터에 배치되는 대화의 인프라.</span>
-      </p>
-      <div class="coming-card">
-        <div class="coming-card-acc"></div>
-        <div class="coming-card-body">
-          <div class="coming-card-top">
-            <div class="coming-card-dot"></div>
-            <div class="coming-card-yr">2030 · Stage 3.0</div>
-            <span class="coming-card-badge">R&amp;D</span>
+      <div class="prod-card-large card-sage">
+        <div class="prod-acc sage"></div>
+        <div class="prod-card-body">
+          <div class="prod-tags">
+            <span class="prod-tag">B2B</span>
+            <span class="prod-tag rnd-tag">R&amp;D</span>
           </div>
-          <div class="coming-card-name"><span class="en">Community Hardware</span><span class="kr">커뮤니티 하드웨어</span></div>
-          <div class="coming-card-desc">
-            <span class="en">The question infrastructure, built into the spaces where it's needed most.</span>
-            <span class="kr">세대가 만나는 공간에 대화의 기술을 심습니다.</span>
+          <div class="prod-name"><span class="en">Community Hardware</span><span class="kr">커뮤니티 하드웨어</span></div>
+          <p class="prod-desc">
+            <span class="en">68,000 senior centers and a ₩451.3B ($340M USD) government loneliness budget in Seoul alone — with no scalable deployment tool. The question engine moves into physical space: hardware installed in the public spaces where generations meet but rarely talk.</span>
+            <span class="kr">전국 68,000개 경로당과 서울시 5년간 4,513억 원 외로움 해소 예산이 있는 시장입니다. 질문 기술을 물리적 공간으로 확장합니다 — 경로당, 도서관, 지역사회 센터에 배치되는 대화의 인프라.</span>
+          </p>
+          <div class="prod-features">
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Market</span><span class="kr">시장</span></div>
+              <div class="prod-feat-val">B2B · Public</div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Stage</span><span class="kr">단계</span></div>
+              <div class="prod-feat-val"><span class="en">Stage 3.0 · 2030</span><span class="kr">3단계 · 2030</span></div>
+            </div>
+            <div class="prod-feat">
+              <div class="prod-feat-label"><span class="en">Status</span><span class="kr">상태</span></div>
+              <div class="prod-feat-val">R&amp;D</div>
+            </div>
           </div>
         </div>
       </div>
