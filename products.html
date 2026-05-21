@@ -134,15 +134,30 @@
     }
 
     /* Large product card */
+    /* Card — light (TalkBingo) */
     .prod-card-large {
       border-radius: 24px; overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08); background: #FAF5EF;
       display: flex; transition: box-shadow 0.25s, transform 0.25s;
     }
     .prod-card-large:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.35); transform: translateY(-3px); }
+
+    /* Card — dark (Debate Platform) */
+    .prod-card-large.card-dark {
+      background: var(--navy); border-color: rgba(255,255,255,0.1);
+    }
+    .card-dark .prod-name { color: white; }
+    .card-dark .prod-desc { color: rgba(255,255,255,0.55); }
+    .card-dark .prod-feat-val { color: rgba(255,255,255,0.85); }
+    .card-dark .prod-tag { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.45); }
+    .card-dark .prod-tag.dev-tag { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.2); }
+    .card-dark .btn-dark { background: white; color: var(--ink); }
+    .card-dark .btn-ghost { border-color: rgba(255,255,255,0.35); color: white; }
+    .card-dark .btn-ghost:hover { border-color: white; }
+
     .prod-acc { width: 8px; flex-shrink: 0; }
     .prod-acc.pink { background: var(--pink); }
-    .prod-acc.navy { background: var(--navy); }
+    .prod-acc.navy { background: #5B7FBF; }
     .prod-acc.sage { background: #8FA48F; }
     .prod-card-body { padding: 48px 52px; flex: 1; }
     .prod-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -372,7 +387,7 @@
   <section class="sec-product">
     <div class="sec-product-inner">
       <p class="sec-tag"><span class="en">02 / CLASSROOM DEBATE PLATFORM</span><span class="kr">02 / 교실 토론 플랫폼</span></p>
-      <div class="prod-card-large">
+      <div class="prod-card-large card-dark">
         <div class="prod-acc navy"></div>
         <div class="prod-card-body">
           <div class="prod-tags">
