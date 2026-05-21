@@ -193,7 +193,7 @@
     .btn-ghost:hover { border-color: var(--ink); }
 
     /* Coming next section */
-    .sec-coming { padding: 120px 0; background: var(--ink); }
+    .sec-coming { padding: 80px 0; background: var(--ink); }
     .sec-coming-inner { max-width: 1440px; margin: 0 auto; padding: 0 80px; }
     .sec-coming .sec-tag { color: var(--pink); }
     .sec-coming-hl {
@@ -202,20 +202,29 @@
       line-height: 1.1; letter-spacing: -0.01em; color: white; margin-bottom: 16px;
     }
     .sec-coming-sub { font-size: 16px; color: rgba(255,255,255,0.42); max-width: 560px; line-height: 1.7; margin-bottom: 40px; }
+    /* Coming card — full-width sage card matching prod-card-large style */
     .coming-card {
-      display: inline-flex; align-items: center; gap: 20px;
-      padding: 24px 32px; border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px; background: rgba(255,255,255,0.04);
+      display: flex; align-items: stretch; overflow: hidden;
+      border-radius: 24px; border: 1px solid rgba(255,255,255,0.08);
+      background: #1C2B1E; transition: box-shadow 0.25s, transform 0.25s;
     }
-    .coming-card-dot { width: 12px; height: 12px; border-radius: 50%; background: #8FA48F; flex-shrink: 0; }
+    .coming-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.4); transform: translateY(-3px); }
+    .coming-card-acc { width: 8px; flex-shrink: 0; background: #8FA48F; }
+    .coming-card-body { padding: 48px 52px; flex: 1; display: flex; flex-direction: column; gap: 0; }
+    .coming-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .coming-card-dot { width: 8px; height: 8px; border-radius: 50%; background: #8FA48F; flex-shrink: 0; }
     .coming-card-yr { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
-    .coming-card-name { font-family: 'Anta', 'Alexandria', sans-serif; font-size: 22px; font-weight: 400; color: white; }
     .coming-card-badge {
       padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 700;
       letter-spacing: 0.06em; text-transform: uppercase;
-      background: rgba(143,164,143,0.12); color: #8FA48F;
+      background: rgba(143,164,143,0.15); color: #8FA48F; border: 1px solid rgba(143,164,143,0.25);
     }
-    .coming-card-desc { font-size: 13px; color: rgba(255,255,255,0.4); max-width: 320px; line-height: 1.6; }
+    .coming-card-name {
+      font-family: 'Anta', 'Alexandria', sans-serif;
+      font-size: clamp(28px, 3vw, 44px); font-weight: 400;
+      color: white; line-height: 1.1; margin-bottom: 16px;
+    }
+    .coming-card-desc { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 600px; line-height: 1.8; }
 
     /* Footer */
     footer { padding: 40px 0; background: var(--cream); border-top: 1px solid var(--border); }
@@ -446,15 +455,18 @@
         <span class="kr">전국 68,000개 경로당과 서울시 5년간 4,513억 원 외로움 해소 예산이 있는 시장입니다. 질문 기술을 물리적 공간으로 확장합니다 — 경로당, 도서관, 지역사회 센터에 배치되는 대화의 인프라.</span>
       </p>
       <div class="coming-card">
-        <div class="coming-card-dot"></div>
-        <div>
-          <div class="coming-card-yr">2030 · Stage 3.0</div>
+        <div class="coming-card-acc"></div>
+        <div class="coming-card-body">
+          <div class="coming-card-top">
+            <div class="coming-card-dot"></div>
+            <div class="coming-card-yr">2030 · Stage 3.0</div>
+            <span class="coming-card-badge">R&amp;D</span>
+          </div>
           <div class="coming-card-name"><span class="en">Community Hardware</span><span class="kr">커뮤니티 하드웨어</span></div>
-        </div>
-        <span class="coming-card-badge">R&amp;D</span>
-        <div class="coming-card-desc">
-          <span class="en">The question infrastructure, built into the spaces where it's needed most.</span>
-          <span class="kr">세대가 만나는 공간에 대화의 기술을 심습니다.</span>
+          <div class="coming-card-desc">
+            <span class="en">The question infrastructure, built into the spaces where it's needed most.</span>
+            <span class="kr">세대가 만나는 공간에 대화의 기술을 심습니다.</span>
+          </div>
         </div>
       </div>
     </div>
