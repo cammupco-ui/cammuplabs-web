@@ -188,14 +188,23 @@
       padding: 120px 0;
       background: var(--cream);
     }
-    .sec-company-inner { max-width: 800px; margin: 0 auto; padding: 0 80px; }
+    .sec-company-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 80px;
+      display: flex; align-items: center; gap: 80px;
+    }
+    .company-left { flex: 1; min-width: 0; }
+    .company-right {
+      flex-shrink: 0; width: 42%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .company-logo-large { width: 100%; display: block; }
     .company-mission {
       font-family: 'Anta', 'Alexandria', sans-serif;
-      font-size: clamp(22px, 2.8vw, 38px); font-weight: 400;
+      font-size: clamp(20px, 2.4vw, 32px); font-weight: 400;
       line-height: 1.25; letter-spacing: -0.01em; color: var(--ink);
-      margin-bottom: 40px;
+      margin-bottom: 36px;
     }
-    .company-story p { font-size: 16px; color: var(--muted); line-height: 1.85; margin-bottom: 20px; }
+    .company-story p { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 20px; }
     .company-story p:last-child { margin-bottom: 0; }
 
     /* ── FOOTER ── */
@@ -221,7 +230,9 @@
       .sec-thesis { padding: 80px 0; }
       .sec-thesis-inner { padding: 0 40px; }
       .sec-company { padding: 80px 0; }
-      .sec-company-inner { padding: 0 40px; }
+      .sec-company-inner { padding: 0 40px; flex-direction: column; gap: 48px; }
+      .company-right { width: 60%; }
+      .company-left { width: 100%; }
       footer { padding: 32px 0; }
       .footer-inner { padding: 0 40px; }
       .prob-left { max-width: 100%; }
@@ -236,6 +247,7 @@
       .sec-thesis-inner { padding: 0 20px; }
       .sec-company { padding: 60px 0; }
       .sec-company-inner { padding: 0 20px; }
+      .company-right { width: 72%; }
       footer { padding: 28px 0; }
       .footer-inner { padding: 0 20px; }
     }
@@ -311,7 +323,7 @@
       <p class="pg-tag"><span class="en">ABOUT CAMMUPLABS</span><span class="kr">CAMMUPLABS 소개</span></p>
       <h1 class="pg-hl">
         <span class="en">The infrastructure layer for human connection.</span>
-        <span class="kr">우리는 소통을 돕기 위해 존재합니다.</span>
+        <span class="kr">우리는 소통을 돕기 위해<br>존재합니다.</span>
       </h1>
       <p class="pg-sub">
         <span class="en">CAMMUPLABS builds the question engine that sits between people — enabling the conversations that visibility-optimized platforms make structurally impossible.</span>
@@ -438,28 +450,39 @@
   <!-- Company -->
   <section class="sec-company">
     <div class="sec-company-inner">
-      <p class="sec-tag" style="color:var(--pink);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;">
-        <span class="en">03 / THE COMPANY</span><span class="kr">03 / 회사 소개</span>
-      </p>
-      <p class="company-mission">
-        <span class="en">"CAMMUP" comes from "Come Up with an idea."</span>
-        <span class="kr">CAMMUP은 "Come Up with an idea(아이디어를 떠올리다)"에서 왔습니다.</span>
-      </p>
-      <div class="company-story">
-        <p>
-          <span class="en">But it carries a deliberate belief: the idea has already arrived. New ideas create questions, and the moment a question surfaces, CAMMUPLABS believes that isn't just a fleeting thought — it's a possibility already in motion. Those possibilities are the key to sustained human connection. CAMMUPLABS researches the technology that helps people use that key — more naturally, more often — and builds experiences where people connect with genuine depth.</span>
-          <span class="kr">그 안에는 한 가지 믿음이 담겨 있습니다 — 그 아이디어는 이미 실현됐다는 것입니다. 새로운 아이디어는 질문을 만들고, 그 질문이 떠오르는 순간 — 우리는 그것을 단순한 생각이 아니라, 이미 시작된 가능성이라고 믿습니다. 그리고 그 가능성은 사람들이 소통을 이어가게 하는 열쇠가 됩니다. CAMMUPLABS는 사람들이 그 열쇠를 더 자연스럽게 활용할 수 있도록 기술을 연구하고, 사람들이 더 깊고 진실하게 연결되는 경험을 만듭니다.</span>
+      <!-- Left: text -->
+      <div class="company-left">
+        <p class="sec-tag" style="color:var(--pink);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;">
+          <span class="en">03 / THE COMPANY</span><span class="kr">03 / 회사 소개</span>
         </p>
-        <p>
-          <span class="en"><strong>Milestones</strong><br>
-          Jun 2024 — CAMMUP Korea incorporated<br>
-          Feb 2026 — TalkBingo launched on iOS &amp; Android<br>
-          May 2026 — CAMMUPLABS Ltd. incorporated in Canada</span>
-          <span class="kr"><strong>연혁</strong><br>
-          2024년 06월 — 한국 CAMMUP 법인 설립<br>
-          2026년 02월 — TalkBingo 앱 런칭 (iOS &amp; Android)<br>
-          2026년 05월 — 캐나다 CAMMUPLABS Ltd. 설립</span>
+        <p class="company-mission">
+          <span class="en">"CAMMUP" comes from "Come Up with an idea."</span>
+          <span class="kr">CAMMUP은 "Come Up with an idea(아이디어를 떠올리다)"에서 왔습니다.</span>
         </p>
+        <div class="company-story">
+          <p>
+            <span class="en">But it carries a deliberate belief: the idea has already arrived. New ideas create questions, and the moment a question surfaces, CAMMUPLABS believes that isn't just a fleeting thought — it's a possibility already in motion. Those possibilities are the key to sustained human connection. CAMMUPLABS researches the technology that helps people use that key — more naturally, more often — and builds experiences where people connect with genuine depth.</span>
+            <span class="kr">그 안에는 한 가지 믿음이 담겨 있습니다 — 그 아이디어는 이미 실현됐다는 것입니다. 새로운 아이디어는 질문을 만들고, 그 질문이 떠오르는 순간 — 우리는 그것을 단순한 생각이 아니라, 이미 시작된 가능성이라고 믿습니다. 그리고 그 가능성은 사람들이 소통을 이어가게 하는 열쇠가 됩니다. CAMMUPLABS는 사람들이 그 열쇠를 더 자연스럽게 활용할 수 있도록 기술을 연구하고, 사람들이 더 깊고 진실하게 연결되는 경험을 만듭니다.</span>
+          </p>
+          <p>
+            <span class="en"><strong>Milestones</strong><br>
+            Jun 2024 — CAMMUP Korea incorporated<br>
+            Feb 2026 — TalkBingo launched on iOS &amp; Android<br>
+            May 2026 — CAMMUPLABS Ltd. incorporated in Canada</span>
+            <span class="kr"><strong>연혁</strong><br>
+            2024년 06월 — 한국 CAMMUP 법인 설립<br>
+            2026년 02월 — TalkBingo 앱 런칭 (iOS &amp; Android)<br>
+            2026년 05월 — 캐나다 CAMMUPLABS Ltd. 설립</span>
+          </p>
+        </div>
+      </div>
+      <!-- Right: large logo -->
+      <div class="company-right">
+        <svg class="company-logo-large" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="#211C19"/>
+          <path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="#211C19"/>
+          <path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+        </svg>
       </div>
     </div>
   </section>
