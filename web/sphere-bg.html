@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAMMUP — Holographic Sphere</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: #EDEAE6;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      user-select: none;
+    }
+    #canvas-container {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #F2EFEC, #EDE8E4, #ECF0F2);
+      background-size: 400% 400%;
+      animation: gradientShift 16s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      33%  { background-position: 100% 50%; }
+      66%  { background-position: 50% 0%; }
+      100% { background-position: 0% 50%; }
+    }
+    canvas { display: block; width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+<div id="canvas-container">
+  <canvas id="c"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const SPHERE_RADIUS = 1.35;
+const ORBIT_DIST    = SPHERE_RADIUS * 1.38;
+
+const bubbleWords = [
+  'Question','Connect','Listen','Understand',
+  'Empathy','Dialogue','Curiosity','Genuine',
+  'Bridge','Discover','Express','Resonate',
+  'Come Up','Meaning','Together'
+];
+
+// ─── RENDERER ─────────────────────────────────────────────
+const canvas    = document.getElementById('c');
+const renderer  = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.setClearColor(0x000000, 0);
+
+// ─── SCENE & CAMERA ───────────────────────────────────────
+const scene  = new THREE.Scene();
+scene.fog    = new THREE.FogExp2(0xEDEAE6, 0.012);
+
+const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, 1.8, 14.5);
+
+// ─── ENV MAP (iridescent gradient) ────────────────────────
+function makeEnvMap() {
+  const c   = document.createElement('canvas');
+  c.width   = 512; c.height = 512;
+  const ctx = c.getContext('2d');
+  const g   = ctx.createRadialGradient(256,256,40, 256,256,256);
+  g.addColorStop(0,   '#ffffff');
+  g.addColorStop(0.3, '#D4C5BC');
+  g.addColorStop(0.6, '#BEC4C8');
+  g.addColorStop(1,   '#C8C4BE');
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,512,512);
+  const tex = new THREE.CanvasTexture(c);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  return tex;
+}
+const envTex = makeEnvMap();
+scene.environment = envTex;
+
+// ─── LIGHTS ───────────────────────────────────────────────
+scene.add(new THREE.AmbientLight(0xFFFBEF, 0.7));
+const sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
+sunLight.position.set(4, 12, 6);
+scene.add(sunLight);
+const rimLight = new THREE.DirectionalLight(0xEC4899, 1.6);
+rimLight.position.set(-6, 3, -8);
+scene.add(rimLight);
+
+// Background flare
+const flareC   = document.createElement('canvas');
+flareC.width   = 128; flareC.height = 128;
+const flareCtx = flareC.getContext('2d');
+const fg       = flareCtx.createRadialGradient(64,64,0,64,64,64);
+fg.addColorStop(0,   'rgba(255,255,255,0.42)');
+fg.addColorStop(0.2, 'rgba(255,218,240,0.16)');
+fg.addColorStop(0.6, 'rgba(180,230,255,0.05)');
+fg.addColorStop(1,   'rgba(0,0,0,0)');
+flareCtx.fillStyle = fg;
+flareCtx.fillRect(0,0,128,128);
+const flareMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(4, 4),
+  new THREE.MeshBasicMaterial({
+    map: new THREE.CanvasTexture(flareC),
+    transparent: true, opacity: 0.25,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  })
+);
+flareMesh.position.set(0, 0.5, -2.5);
+scene.add(flareMesh);
+
+// ─── CENTRAL SPHERE ───────────────────────────────────────
+const sphereGeo = new THREE.IcosahedronGeometry(SPHERE_RADIUS, 5);
+const initSpherePos = Array.from(sphereGeo.attributes.position.array);
+
+const sphereMat = new THREE.MeshPhysicalMaterial({
+  color: 0xFFFBF4, transparent: true, opacity: 0.85,
+  transmission: 0.98, thickness: 1.25,
+  roughness: 0.05, metalness: 0,
+  ior: 1.48,
+  iridescence: 0.85, iridescenceIOR: 1.35,
+  iridescenceThicknessRange: [120, 380],
+  clearcoat: 1.0, clearcoatRoughness: 0.05,
+  envMap: envTex, side: THREE.DoubleSide, depthWrite: true
+});
+const centralSphere = new THREE.Mesh(sphereGeo, sphereMat);
+centralSphere.position.set(0, 0.45, 0);
+centralSphere.renderOrder = 5;
+scene.add(centralSphere);
+
+// Wireframe overlay
+const wireGeo = new THREE.IcosahedronGeometry(SPHERE_RADIUS * 1.025, 3);
+const wireMat = new THREE.MeshBasicMaterial({
+  color: 0xffffff, wireframe: true, transparent: true,
+  opacity: 0.7, blending: THREE.AdditiveBlending
+});
+const outerWire = new THREE.Mesh(wireGeo, wireMat);
+outerWire.position.copy(centralSphere.position);
+scene.add(outerWire);
+
+// ─── CAMMUP LOGO ──────────────────────────────────────────
+const SVG_SRC = `<svg width="45" height="16" viewBox="0 0 45 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M30.0352 12.6973C30.0352 13.0135 30.1409 13.2833 30.3516 13.5059C30.5663 13.7284 30.8224 13.8397 31.1191 13.8398H34.7871C35.0957 13.8398 35.3574 13.7285 35.5723 13.5059C35.791 13.2832 35.9004 13.0137 35.9004 12.6973V0H37.1309V7.0957H41.9951C42.3115 7.09569 42.5811 6.99022 42.8037 6.7793C43.0262 6.56449 43.1377 6.3085 43.1377 6.01172V2.34375C43.1376 2.0353 43.0263 1.77336 42.8037 1.55859C42.5811 1.33995 42.3114 1.23049 41.9951 1.23047H37.6299V0H41.9951C42.4326 1.22583e-05 42.8311 0.105517 43.1904 0.316406C43.5497 0.527301 43.8369 0.810647 44.0518 1.16602C44.2665 1.51749 44.374 1.91029 44.374 2.34375V6.0293C44.374 6.45106 44.2665 6.83797 44.0518 7.18945C43.837 7.53704 43.5497 7.81447 43.1904 8.02148C42.8311 8.2285 42.4326 8.33202 41.9951 8.33203H37.1309V12.6973C37.1309 13.1347 37.0254 13.5332 36.8145 13.8926C36.6035 14.252 36.3203 14.5391 35.9648 14.7539C35.6133 14.9687 35.2206 15.0762 34.7871 15.0762H31.1016C30.6799 15.0761 30.2928 14.9687 29.9414 14.7539C29.594 14.5391 29.3163 14.2518 29.1094 13.8926C28.9025 13.5333 28.7988 13.1346 28.7988 12.6973V0H30.0352V12.6973Z" fill="white"/>
+<path d="M6.74414 1.23047H2.37891C2.06264 1.23054 1.79289 1.33992 1.57031 1.55859C1.34774 1.77336 1.23641 2.0353 1.23633 2.34375V6.01172C1.23633 6.30844 1.34788 6.56452 1.57031 6.7793C1.79289 6.99016 2.06264 7.09563 2.37891 7.0957H7.18652L9.72656 0H11.2676L13.8066 7.09277H14.25V0H15.3809L18.0703 3.28711L20.7598 0H21.7891L24.4785 3.28711L27.168 0H28.2988V8.33203H27.0625V2.10352L24.9941 4.61133H23.9688L21.8945 2.10352V8.33203H20.6543V2.10352L18.5859 4.61133H17.5605L15.4863 2.10352V8.33203H12.9316L10.5 1.61719L8.0625 8.33203H2.37891C1.94153 8.33198 1.54288 8.22847 1.18359 8.02148C0.824399 7.81448 0.537032 7.53698 0.322266 7.18945C0.10758 6.83799 0 6.45102 0 6.0293V2.34375C5.57728e-05 1.91029 0.107478 1.51749 0.322266 1.16602C0.537084 0.810626 0.824297 0.527317 1.18359 0.316406C1.54288 0.10552 1.94153 5.14806e-05 2.37891 0H6.74414V1.23047Z" fill="white"/>
+<path d="M28.2977 0H28.7977V1.24H28.2977V0Z" fill="#FF0051"/>
+</svg>`;
+
+function makeLogoTexture() {
+  const c = document.createElement('canvas');
+  c.width = 2048; c.height = 1024;
+  const ctx = c.getContext('2d');
+  const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = THREE.LinearFilter;
+
+  const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(SVG_SRC);
+  const img = new Image();
+  img.onload = () => {
+    ctx.clearRect(0, 0, 2048, 1024);
+    const dw = 720, dh = 256;
+    const dx = (2048 - dw) / 2, dy = (1024 - dh) / 2;
+    ctx.shadowColor = 'white'; ctx.shadowBlur = 24;
+    ctx.drawImage(img, dx, dy, dw, dh);
+    tex.needsUpdate = true;
+  };
+  img.src = url;
+  return tex;
+}
+const logoTex  = makeLogoTexture();
+const logoMat  = new THREE.MeshBasicMaterial({
+  map: logoTex, transparent: true, opacity: 0.9,
+  depthWrite: false, depthTest: false, side: THREE.DoubleSide
+});
+const logoMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.16, 1.08), logoMat);
+logoMesh.position.copy(centralSphere.position);
+logoMesh.renderOrder = 10;
+scene.add(logoMesh);
+
+// ─── SATELLITE SPHERE ─────────────────────────────────────
+const satRadius  = SPHERE_RADIUS * 0.15;
+const satGeo     = new THREE.IcosahedronGeometry(satRadius, 2);
+const satMat     = new THREE.MeshPhysicalMaterial({
+  color: 0xffffff, transparent: true, opacity: 0.85,
+  transmission: 0.95, thickness: 0.4, roughness: 0.05,
+  ior: 1.48, envMap: envTex, side: THREE.DoubleSide
+});
+const satWireGeo = new THREE.IcosahedronGeometry(satRadius * 1.025, 2);
+const satWireMat = new THREE.MeshBasicMaterial({
+  color: 0xffffff, wireframe: true, transparent: true,
+  opacity: 0.7, blending: THREE.AdditiveBlending
+});
+const satGroup   = new THREE.Group();
+satGroup.add(new THREE.Mesh(satGeo, satMat));
+satGroup.add(new THREE.Mesh(satWireGeo, satWireMat));
+// 초기 위치: 오른쪽 궤도에서 시작
+satGroup.position.set(
+  centralSphere.position.x + ORBIT_DIST,
+  centralSphere.position.y,
+  centralSphere.position.z
+);
+scene.add(satGroup);
+
+// Orbit ring (faint dashed)
+const orbitPts = [];
+for (let i = 0; i <= 64; i++) {
+  const a = (i / 64) * Math.PI * 2;
+  orbitPts.push(new THREE.Vector3(Math.cos(a) * ORBIT_DIST, 0, Math.sin(a) * ORBIT_DIST));
+}
+const orbitRingGeo = new THREE.BufferGeometry().setFromPoints(orbitPts);
+const orbitRing = new THREE.LineLoop(orbitRingGeo,
+  new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.07 })
+);
+orbitRing.position.copy(centralSphere.position);
+orbitRing.rotation.x = Math.PI * 0.12;
+scene.add(orbitRing);
+
+// Expose button-targeting API
+let externalTarget = null;
+window.moveSatelliteTo = (worldPos) => {
+  if (worldPos && typeof worldPos.x === 'number') {
+    const dir = new THREE.Vector3().subVectors(
+      new THREE.Vector3(worldPos.x, worldPos.y, worldPos.z),
+      centralSphere.position
+    ).normalize();
+    externalTarget = centralSphere.position.clone().addScaledVector(dir, ORBIT_DIST);
+  } else {
+    externalTarget = null;
+  }
+};
+
+// ─── WATER FLOOR ──────────────────────────────────────────
+const wSeg   = 40;
+const waterGeo = new THREE.PlaneGeometry(160, 160, wSeg, wSeg);
+waterGeo.rotateX(-Math.PI / 2);
+const initWaterPos = Array.from(waterGeo.attributes.position.array);
+const waterMat = new THREE.MeshPhysicalMaterial({
+  color: 0x6E6A64, transparent: true, opacity: 0.85,
+  roughness: 0.08, metalness: 0.96, ior: 1.33,
+  transmission: 0.4, clearcoat: 1, clearcoatRoughness: 0.08,
+  iridescence: 0.6, iridescenceIOR: 1.3,
+  iridescenceThicknessRange: [100, 300]
+});
+const waterMesh = new THREE.Mesh(waterGeo, waterMat);
+waterMesh.position.set(0, -3.2, 0);
+scene.add(waterMesh);
+
+// ─── BUBBLE TEXTURE ───────────────────────────────────────
+function makeBubbleTexture(word) {
+  const c = document.createElement('canvas');
+  c.width = 512; c.height = 256;
+  const ctx = c.getContext('2d');
+
+  const x=20, y=20, w=472, h=180, r=32;
+  // shadow
+  ctx.shadowColor = 'rgba(0,0,0,0.15)';
+  ctx.shadowBlur  = 8; ctx.shadowOffsetY = 4;
+
+  // speech bubble path
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(256+24, y+h);
+  ctx.lineTo(256, y+h+24);   // tail
+  ctx.lineTo(256-24, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+
+  ctx.fillStyle = 'rgba(255,255,255,0.22)';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.strokeStyle = 'rgba(200,190,185,0.9)';
+  ctx.lineWidth   = 3.5;
+  ctx.stroke();
+
+  // specular glint
+  ctx.beginPath();
+  ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+  ctx.lineWidth = 3; ctx.lineCap = 'round';
+  ctx.arc(x+r, y+r, r-2, Math.PI, Math.PI*1.5);
+  ctx.stroke();
+
+  // word
+  ctx.font      = '500 36px Inter, -apple-system, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.92)';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(255,255,255,0.5)'; ctx.shadowBlur = 6;
+  ctx.fillText(word, 256, y + h/2);
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = THREE.LinearFilter;
+  return tex;
+}
+
+// ─── ACTIVE BUBBLES ───────────────────────────────────────
+let activeBubbles = [];
+
+function spawnBubbles(count) {
+  for (let i = 0; i < count; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi   = Math.random() * Math.PI;
+    const spawnPos = new THREE.Vector3(
+      centralSphere.position.x + SPHERE_RADIUS * Math.sin(phi) * Math.cos(theta),
+      centralSphere.position.y + SPHERE_RADIUS * Math.cos(phi),
+      centralSphere.position.z + SPHERE_RADIUS * Math.sin(phi) * Math.sin(theta)
+    );
+    const dir  = spawnPos.clone().sub(centralSphere.position).normalize();
+    const vel  = dir.clone().multiplyScalar(0.02 + Math.random() * 0.04);
+    vel.x += (Math.random()-0.5)*0.02;
+    vel.y += (Math.random()-0.5)*0.02;
+    vel.z += (Math.random()-0.5)*0.02;
+
+    // perp for wobble
+    const perp = new THREE.Vector3();
+    if (Math.abs(dir.x) < 0.9) perp.set(1,0,0); else perp.set(0,1,0);
+    perp.cross(dir).normalize();
+
+    const word  = bubbleWords[Math.floor(Math.random() * bubbleWords.length)];
+    const mat   = new THREE.MeshBasicMaterial({
+      map: makeBubbleTexture(word), transparent: true,
+      depthWrite: false, side: THREE.DoubleSide
+    });
+    const mesh  = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.6), mat);
+    const s     = 0.6 + Math.random() * 0.7;
+    mesh.scale.set(s,s,s);
+    mesh.position.copy(spawnPos);
+    scene.add(mesh);
+
+    activeBubbles.push({
+      mesh, vel, perp,
+      basePos: spawnPos.clone(),
+      baseScale: s,
+      birth: performance.now(),
+      life: 4000 + Math.random() * 2000,
+      wobbleSpeed: 1.5 + Math.random() * 1.5
+    });
+  }
+}
+
+// 클릭 시에만 버블 생성 (auto-spawn 없음)
+let lastAutoSpawn = 0;
+
+// ─── SHOCKWAVES ───────────────────────────────────────────
+let shockwaves = [];
+const flashLight = new THREE.PointLight(0xEC4899, 0, 12);
+scene.add(flashLight);
+
+function triggerClick(hitPoint, normal) {
+  // Flash
+  flashLight.position.copy(hitPoint);
+  flashLight.intensity = 7;
+
+  // Shockwave ring
+  const pts = [];
+  for (let i=0;i<=48;i++) {
+    const a = (i/48)*Math.PI*2;
+    pts.push(new THREE.Vector3(Math.cos(a)*0.06, Math.sin(a)*0.06, 0));
+  }
+  const ring = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(pts),
+    new THREE.LineBasicMaterial({
+      color: 0xffffff, transparent: true, opacity: 0.8,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    })
+  );
+  ring.position.copy(hitPoint).addScaledVector(normal, 0.03);
+  ring.lookAt(ring.position.clone().add(normal));
+  scene.add(ring);
+  shockwaves.push({ mesh: ring, birth: performance.now(), life: 650 });
+
+  // Spawn 11 bubbles from all sphere surface points
+  spawnBubbles(11);
+
+  // Logo flash
+  lastLogoFlash = performance.now();
+}
+
+// ─── MOUSE STATE ──────────────────────────────────────────
+let mouseX = innerWidth/2, mouseY = innerHeight/2;
+let hasMouseMoved = false, mouseInWindow = true;
+let lastLogoFlash = 0;
+let lastImpact = 0, impactDir = new THREE.Vector3(), impactIntensity = 0;
+
+window.addEventListener('pointermove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  hasMouseMoved = true; mouseInWindow = true;
+  externalTarget = null;
+});
+window.addEventListener('pointerleave', () => mouseInWindow = false);
+window.addEventListener('pointerenter', () => mouseInWindow = true);
+
+const raycaster = new THREE.Raycaster();
+const mouse2d   = new THREE.Vector2();
+window.addEventListener('pointerdown', e => {
+  mouse2d.x =  (e.clientX / innerWidth)  * 2 - 1;
+  mouse2d.y = -(e.clientY / innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse2d, camera);
+  const hits = raycaster.intersectObject(centralSphere);
+  if (hits.length) {
+    const pt     = hits[0].point;
+    const normal = pt.clone().sub(centralSphere.position).normalize();
+    lastImpact = performance.now(); impactDir.copy(normal); impactIntensity = 0.38;
+    lastLogoFlash = performance.now();
+    triggerClick(pt, normal);
+  }
+});
+
+// ─── CLOCK ────────────────────────────────────────────────
+const clock = new THREE.Clock();
+
+// ─── RENDER LOOP ──────────────────────────────────────────
+function tick() {
+  requestAnimationFrame(tick);
+  const now     = performance.now();
+  const delta   = clock.getDelta();
+  const elapsed = clock.getElapsedTime();
+
+  // --- Sphere deformation on click ---
+  let compress = 0;
+  if (lastImpact > 0) {
+    const t = (now - lastImpact) / 1000;
+    if (t < 0.8) {
+      compress = impactIntensity * Math.exp(-t*6.5) * Math.sin(t*22);
+    } else { lastImpact = 0; }
+  }
+  const posAttr = sphereGeo.attributes.position;
+  const posArr  = posAttr.array;
+  if (Math.abs(compress) > 0.001) {
+    const localDir = impactDir.clone()
+      .applyMatrix4(new THREE.Matrix4().copy(centralSphere.matrixWorld).invert())
+      .normalize();
+    for (let i=0; i<posAttr.count; i++) {
+      const v = new THREE.Vector3(initSpherePos[i*3], initSpherePos[i*3+1], initSpherePos[i*3+2]);
+      const d = 1 - compress * v.clone().normalize().dot(localDir);
+      posArr[i*3]   = initSpherePos[i*3]   * d;
+      posArr[i*3+1] = initSpherePos[i*3+1] * d;
+      posArr[i*3+2] = initSpherePos[i*3+2] * d;
+    }
+  } else {
+    for (let i=0; i<posAttr.count*3; i++) posArr[i] = initSpherePos[i];
+  }
+  posAttr.needsUpdate = true;
+  sphereGeo.computeVertexNormals();
+
+  // --- Mouse influence on sphere rotation ---
+  let influence = 0, tRX = 0, tRY = 0;
+  if (hasMouseMoved) {
+    const sv = centralSphere.position.clone().project(camera);
+    const rect = renderer.domElement.getBoundingClientRect();
+    const scx  = rect.left + (sv.x*0.5+0.5)*rect.width;
+    const scy  = rect.top  + (-sv.y*0.5+0.5)*rect.height;
+    const dist = Math.hypot(mouseX-scx, mouseY-scy);
+    influence  = 1 - Math.min(dist/300, 1);
+    tRY = (mouseX - scx) * 0.003;
+    tRX = (mouseY - scy) * 0.003;
+  }
+
+  centralSphere.rotation.x += 0.045*delta*(1-influence) + (tRX - centralSphere.rotation.x)*0.05*influence;
+  centralSphere.rotation.y += 0.11 *delta*(1-influence) + tRY*0.05*influence;
+  outerWire.rotation.x = centralSphere.rotation.x;
+  outerWire.rotation.y -= 0.16*delta*(1-influence);
+  outerWire.rotation.z += 0.06*delta;
+
+  const pulse = 1 + Math.sin(elapsed*0.8)*0.033;
+  centralSphere.scale.setScalar(pulse);
+  outerWire.scale.setScalar(pulse);
+  orbitRing.scale.setScalar(pulse);
+
+  // --- Satellite compass behavior ---
+  const orbitDist = ORBIT_DIST * pulse;
+  let targetPos   = new THREE.Vector3();
+
+  if (externalTarget) {
+    const d = externalTarget.clone().sub(centralSphere.position).normalize();
+    targetPos.copy(centralSphere.position).addScaledVector(d, orbitDist);
+  } else if (!mouseInWindow || !hasMouseMoved) {
+    const t = now * 0.001;
+    targetPos.set(
+      centralSphere.position.x + Math.cos(t*0.5)*orbitDist,
+      centralSphere.position.y + Math.sin(t*0.3)*orbitDist*0.4,
+      centralSphere.position.z + Math.sin(t*0.5)*orbitDist
+    );
+  } else {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const nx   = ((mouseX-rect.left)/rect.width)*2 - 1;
+    const ny   = -((mouseY-rect.top)/rect.height)*2 + 1;
+    const mw   = new THREE.Vector3(nx, ny, 0.5).unproject(camera);
+    const d    = mw.sub(centralSphere.position).normalize();
+    if (!isNaN(d.x)) {
+      targetPos.copy(centralSphere.position).addScaledVector(d, orbitDist);
+    } else {
+      const t = now * 0.001;
+      targetPos.set(
+        centralSphere.position.x + Math.cos(t*0.5)*orbitDist,
+        centralSphere.position.y + Math.sin(t*0.3)*orbitDist*0.4,
+        centralSphere.position.z + Math.sin(t*0.5)*orbitDist
+      );
+    }
+  }
+  satGroup.position.lerp(targetPos, 0.04);
+  satGroup.rotation.y += 0.8*delta;
+  satGroup.rotation.x += 0.3*delta;
+
+  // Depth-based scale + opacity (3D orbit feel)
+  const depth   = (satGroup.position.z - centralSphere.position.z) / SPHERE_RADIUS;
+  const satScale = THREE.MathUtils.mapLinear(depth, -1, 1, 0.4, 1.0) * pulse;
+  satGroup.scale.setScalar(satScale);
+  const satOp = THREE.MathUtils.mapLinear(depth, -1, 1, 0.12, 0.9);
+  satWireMat.opacity = satOp;
+  satMat.opacity     = satOp * 0.9;
+  satGroup.renderOrder   = depth < -0.3 ? 0 : 10;
+
+  // --- Logo billboard ---
+  logoMesh.lookAt(camera.position);
+  logoMesh.scale.setScalar(pulse);
+  const timeSinceFlash = now - lastLogoFlash;
+  if (timeSinceFlash < 200) {
+    const p = timeSinceFlash/200;
+    const b = 3.5*(1-p);
+    logoMat.color.setRGB(1+b, 1+b, 1+b);
+    logoMat.opacity = 1.0;
+  } else {
+    logoMat.color.setRGB(1,1,1);
+    logoMat.opacity = 0.8 + Math.sin(elapsed*(Math.PI*2/3))*0.2;
+  }
+
+  // --- Water ripples ---
+  const wAttr = waterGeo.attributes.position;
+  const wArr  = wAttr.array;
+  for (let i=0; i<wAttr.count; i++) {
+    const vx = initWaterPos[i*3], vz = initWaterPos[i*3+1];
+    wArr[i*3+2] =
+      Math.sin(vx*0.08 + elapsed*1.2)*0.045 +
+      Math.cos(vz*0.075 - elapsed*1.08)*0.034 +
+      Math.sin((vx+vz)*0.045 + elapsed*1.56)*0.023;
+  }
+  waterGeo.computeVertexNormals();
+  wAttr.needsUpdate = true;
+
+  // --- Shockwave rings ---
+  shockwaves = shockwaves.filter(s => {
+    const p = (now - s.birth) / s.life;
+    if (p >= 1) { scene.remove(s.mesh); s.mesh.geometry.dispose(); s.mesh.material.dispose(); return false; }
+    s.mesh.scale.set(1 + p*5, 1 + p*5, 1);
+    s.mesh.material.opacity = (1-p)*0.8;
+    return true;
+  });
+
+  // Flash light decay
+  if (flashLight.intensity > 0.05) flashLight.intensity -= 38*delta;
+  else flashLight.intensity = 0;
+
+  // --- Bubbles update (click-only, no auto-spawn) ---
+  activeBubbles = activeBubbles.filter(b => {
+    const progress = (now - b.birth) / b.life;
+    if (progress >= 1) {
+      scene.remove(b.mesh);
+      b.mesh.geometry.dispose();
+      b.mesh.material.map && b.mesh.material.map.dispose();
+      b.mesh.material.dispose();
+      return false;
+    }
+    b.basePos.add(b.vel.clone().multiplyScalar(delta*60));
+    b.mesh.position.copy(b.basePos);
+    b.mesh.position.addScaledVector(b.perp, Math.sin(elapsed*b.wobbleSpeed)*0.008);
+    b.mesh.quaternion.copy(camera.quaternion);
+    b.mesh.material.opacity = (1-progress)*0.85;
+    return true;
+  });
+
+  // --- Camera gentle float ---
+  camera.position.x = THREE.MathUtils.lerp(camera.position.x, Math.sin(elapsed*0.1)*1.8, delta*2);
+  camera.position.y = THREE.MathUtils.lerp(camera.position.y, 1.8 + Math.cos(elapsed*0.14)*0.4, delta*2);
+  camera.position.z = THREE.MathUtils.lerp(camera.position.z, 14.5 + Math.sin(elapsed*0.08)*1.2, delta*2);
+  camera.lookAt(0, 0.45, 0);
+
+  renderer.render(scene, camera);
+}
+tick();
+
+// ─── RESIZE ───────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+</script>
+</body>
+</html>

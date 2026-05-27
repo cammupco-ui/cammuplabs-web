@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cammup-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "7771", "/Users/anmijung/Desktop/CAMMUP/web"],
+      "port": 7771
+    }
+  ]
+}

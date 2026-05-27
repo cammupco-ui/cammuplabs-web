@@ -1,0 +1,158 @@
+{
+  "_note": "English content for North American (Canadian) investor and partner audience. Data-led, research-backed.",
+  "popups": {
+    "_description": "5 popup panels triggered from home screen buttons",
+    "problem": {
+      "_buttonLabel": "The Problem",
+      "title": "We have more ways to communicate than ever. We've never felt more unheard.",
+      "body": "The average person sends hundreds of messages a day.\nYet the US Surgeon General declared loneliness a public health epidemic in 2023.\nThe WHO classified it a global health priority the same year.\n\nThe problem isn't access to communication tools.\nIt's the structure of every platform we use.\n\nEvery major platform is built to maximize visibility — likes, views, reach.\nThat same structure makes authentic sharing feel risky.\nPeople share more. They connect less.\n\nCAMMUPLABS builds the infrastructure that changes this.",
+      "button": "See the full analysis →"
+    },
+    "hypothesis": {
+      "_buttonLabel": "Our Hypothesis",
+      "title": "A neutral question, asked without judgment, opens people up.",
+      "body": "In 1997, psychologist Arthur Aron demonstrated that a structured sequence of 36 escalating questions could create measurable closeness between strangers in under an hour.\n\nHarvard research (Huang et al., 2017) identified the follow-up question as the single most effective driver of rapport — and found that people dramatically underestimate this effect.\n\nIn 2024, Google DeepMind published in Science: AI-mediated dialogue reduced polarization among 5,700 participants more effectively than unmediated human conversation.\n\nCAMMUPLABS operationalizes this research for everyday relationships — and classrooms.",
+      "button": "Read our research foundation →"
+    },
+    "roadmap": {
+      "_buttonLabel": "Roadmap",
+      "title": "Three products. One compounding dataset.",
+      "body": "2026 — TalkBingo · Live\nAI-powered conversation game for couples, families, and friends.\nB2C consumer layer. Question dataset begins.\n\n2027 — Classroom Debate Platform · In Development\nThe year South Korea mandates debate instruction in every classroom.\nB2B EdTech. AI question cards. No specialist teacher required.\n\n2030 — Community Hardware · Research Phase\nPhysical conversation infrastructure for public spaces.\nSeoul alone has budgeted $340M USD over 5 years for loneliness intervention.",
+      "button": "Full roadmap →"
+    },
+    "why_now": {
+      "_buttonLabel": "Why Now",
+      "title": "This is already a major social issue.",
+      "body": "Policy: South Korea's Ministry of Education mandates debate in every classroom by 2027. The procurement window opens now.\n\nBudget: Seoul has allocated ₩451.3B ($340M USD) over 5 years specifically for loneliness intervention. No scalable tool exists to capture this spend.\n\nTechnology: LLMs can now generate contextually aware, relationship-specific follow-up questions in real time. This capability didn't exist at scale three years ago.\n\nAll three conditions are met simultaneously.",
+      "button": "Why this timing →"
+    },
+    "live_now": {
+      "_buttonLabel": "Live Now",
+      "title": "TalkBingo is live on iOS and Android.",
+      "body": "Available now. Free to start.\n\nEarly users report:\n\"Most honest conversation I've had in years.\"\n\"Said things I never would have brought up on my own.\"\n\nThe Classroom Debate Platform launches in 2027,\naligned with South Korea's national curriculum mandate.",
+      "button": "See the products →"
+    }
+  },
+  "pages": {
+    "about": {
+      "_file": "about.html",
+      "hero": {
+        "tag": "About CAMMUPLABS",
+        "title": "We exist to help people connect.",
+        "subtitle": "CAMMUPLABS builds the question engine that sits between people — enabling the conversations that visibility-optimized platforms make structurally impossible."
+      },
+      "section1_problem": {
+        "tag": "01 / The Problem",
+        "title": "Platforms built for reach created a structural barrier to depth.",
+        "body1": "Instagram, TikTok, LinkedIn, KakaoTalk — every major communication platform rewards visibility. Likes, views, shares, reach. When the incentive structure rewards performance, users optimize for performance. What gets shared is not authenticity — it's a curated version of authenticity. The platform doesn't prevent honesty. Its structure makes honesty feel costly.",
+        "body2": "This is a structural problem, not a cultural one. South Korean students rank 75th out of 79 countries for asking questions in class — not because they lack opinions, but because being seen and judged in a classroom carries the same social risk as performing on any other platform (OECD PISA 2022). 540,000 young Koreans aged 19–34 are in a state of social withdrawal — not because connection tools are scarce, but because no existing tool makes authentic sharing feel structurally safe (Korea Institute for Health and Social Affairs, 2023). Seoul has committed ₩451.3B ($340M USD) over five years to address this. Government budget allocation is the strongest signal that the private market has not solved the problem.",
+        "body3": "CAMMUPLABS does not build another communication channel. It builds the question layer — the AI-generated prompts that create the structural conditions for depth within any relationship or context.",
+        "stats": {
+          "stat1": "75th of 79 countries — South Korean students' classroom question rate (OECD PISA 2022). Not a lack of opinions. A structural disincentive to be seen.",
+          "stat1_source": "OECD PISA 2022",
+          "stat2": "540,000 young Koreans (ages 19–34) in social isolation — not from lack of platforms, but from the absence of a safe channel for authentic sharing.",
+          "stat2_source": "Korea Institute for Health and Social Affairs / Ministry of Health and Welfare, 2023",
+          "stat3": "$340M USD (₩451.3B) — Seoul's 5-year loneliness intervention budget. Public sector acknowledgment that the market has not produced a solution.",
+          "stat3_source": "Seoul Metropolitan Government, October 2024"
+        }
+      },
+      "section2_hypothesis": {
+        "tag": "02 / Our Thesis",
+        "title": "Technology that helps people connect.",
+        "subtitle": "We research questions, mediate questions, and make questions connect people.",
+        "card1": {
+          "title": "The follow-up question is the key.",
+          "description": "Harvard Business School research (Huang et al., 2017) found that follow-up questions — questions that respond directly to what the other person just said — are the single strongest predictor of perceived warmth and trustworthiness in conversation. Critically, people dramatically underestimate this effect: they don't intuitively know to ask them. CAMMUPLABS' AI generates these follow-up questions automatically, calibrated to the relationship type and conversation context."
+        },
+        "card2": {
+          "title": "The moderator's question.",
+          "description": "Good conversation needs a moderator — someone to fill the silence, redirect when one side runs too long, and create space for everyone to speak. But between friends, family, or in a classroom, you can't have a neutral moderator every time. CAMMUPLABS' AI fills that role: no judgment, no sides, just the next question that keeps the conversation going."
+        },
+        "card3": {
+          "title": "Questions AI tailors for you.",
+          "description": "The AI learns from each response to generate the next question. The more honestly someone answers, the deeper the follow-up becomes. This compounding loop reaches thoughts the user couldn't have arrived at alone. CAMMUPLABS uses AI not as an information tool, but as a conversation engine that expands human thinking."
+        },
+        "closing": "CAMMUPLABS is building the question engineering layer for human communication. Not an app — infrastructure."
+      },
+      "section3_company": {
+        "tag": "03 / The Company",
+        "name_origin": "\"CAMMUP\" comes from \"Come Up with an idea.\"",
+        "body": "But it carries a deliberate belief: the idea has already arrived. New ideas create questions, and the moment a question surfaces, CAMMUPLABS believes that isn't just a fleeting thought — it's a possibility already in motion. Those possibilities are the key to sustained human connection. CAMMUPLABS researches the technology that helps people use that key — more naturally, more often — and builds experiences where people connect with genuine depth.",
+        "milestones": "Jun 2024 — CAMMUP Korea incorporated\nFeb 2026 — TalkBingo launched on iOS & Android\nMay 2026 — CAMMUPLABS Ltd. incorporated in Canada"
+      }
+    },
+    "vision": {
+      "_file": "vision.html",
+      "hero": {
+        "tag": "Vision",
+        "title": "To build the infrastructure that makes genuine human connection possible."
+      },
+      "section1_roadmap": {
+        "tag": "01 / Roadmap",
+        "title": "One question engine. Three spaces.",
+        "stage1": {
+          "year": "2026 · Stage 1.0",
+          "name": "Game-based Chat Platform",
+          "model": "B2C",
+          "status": "Live",
+          "description": "AI-powered conversation game for couples, families, and friends. Answer a question; your partner earns a bingo cell by empathizing with your answer. The mechanic forces genuine listening. Live on iOS and Android. B2C consumer validation. Question dataset begins accumulating."
+        },
+        "stage2": {
+          "year": "2027 · Stage 2.0",
+          "name": "Classroom Debate Platform",
+          "model": "B2B",
+          "status": "In Development",
+          "description": "Structured debate tool for K-12 classrooms. AI generates topic-specific question cards; teachers set subject and difficulty. No debate specialist required — any educator can run it. Launching 2027, the year South Korea's Ministry of Education mandates debate instruction in every school. Policy mandate is the sales cycle."
+        },
+        "stage3": {
+          "year": "2030 · Stage 3.0",
+          "name": "Community Hardware",
+          "model": "B2B",
+          "status": "R&D",
+          "description": "Physical conversation infrastructure deployed in senior centers, libraries, and community hubs. Seoul has 68,000 senior centers and a ₩451.3B ($340M USD) 5-year loneliness budget with no scalable deployment mechanism. The question engine moves into hardware. Public procurement model."
+        }
+      },
+      "section2_why_now": {
+        "tag": "02 / Why Now",
+        "title": "An era where personalization is more critical,\ntwo-way communication must be even more tailored.",
+        "body": "76% of Korean office workers say they \"lack meaningful personal conversations.\"¹ Meanwhile, the social gathering app Munto surpassed 1 million subscribers in 2023,⁴ and the number of book club app users quadrupled in just four years.⁵ 68% of Gen Z prefers small-scale in-person conversations over online ones.⁶ People constantly yearn for connection. We need online tools that allow them to understand each other deeply.\n\nWhat has changed is technology. The cost of the GPT-3.5 API has dropped by 99% in 2024 compared to 2020.² In 2023, AI response latency reached below 300ms for the first time—a turning point where interacting with AI in natural language rather than searching feels natural, generating more data to help AI understand humans.³ GPT-4 can now generate real-time, tailored follow-up questions while maintaining relationship context. These were impossible features three years ago.\n\nIn the near future, reasoning AI will become mainstream, making real-time custom question generation a given. This is the core mechanism of all CAMMUPLABS products. We believe right now is the timing to evolve technology for communication.\n\nWhen tools change, behavior changes; when behavior changes, relationships change. We stand at the very moment of creating that tool.",
+        "source": "¹ Korean Academy of Neuropsychiatric Medicine, 2023 · ² OpenAI API Price History, 2020–2024 · ³ Stanford HAI, AI Index Report 2023 · ⁴ Munto Official Announcement, 2023 · ⁵ Kyobo Book Centre & Trevari Growth Data, 2019–2023 · ⁶ Embrain Trend Monitor, 2023"
+      }
+    },
+    "products": {
+      "_file": "products.html",
+      "hero": {
+        "tag": "Products",
+        "title": "The platform that knows you.",
+        "subtitle": "What's live, what's in development, and what's next."
+      },
+      "product1_talkbingo": {
+        "tag": "01 / TalkBingo",
+        "description": "Your choice reveals more than you think. Whether you pick A or B isn't just preference — it's a window into how you think, what you value, and who you are. TalkBingo combines three things in one: a balance game, a truth game, and a bingo board. The AI generates question cards tailored to your relationship — couples, family, friends, or strangers. Empathize with your partner's answer and the bingo fills. The game is just the excuse. The real thing is the conversation that follows when you ask: \"why did you choose that?\" Where social media shows only curated highlights and messaging apps leave read receipts, TalkBingo opens a space for the conversations that have been waiting.",
+        "button1": "App Store →",
+        "button2": "Google Play →",
+        "button3": "Try on Web →"
+      },
+      "product2_debate": {
+        "tag": "02 / Classroom Debate Platform",
+        "description": "Conventional debate rewards the strongest argument. Students listen for weaknesses to rebut, not perspectives to understand. CAMMUPLABS' classroom platform changes the incentive structure: bingo cells fill when the audience empathizes with your position. Winning requires being understood. Being understood requires engaging with the other perspective first. The AI generates subject-specific question cards calibrated to topic and grade level. Teachers set the parameters; any educator — science teacher, substitute, first-year hire — can run a structured debate without specialist training. Game-based learning meta-analysis reports effect size g = 0.782 (Zeng et al., 2024, BJET), well above typical EdTech benchmarks. Launching 2027.",
+        "button": "Apply for Early Access →"
+      },
+      "product3_hardware": {
+        "tag": "03 / Next Stage",
+        "title": "Community Hardware",
+        "description": "68,000 senior centers and a ₩451.3B ($340M USD) government loneliness budget in Seoul alone — with no scalable deployment tool. The question engine moves into physical space: hardware installed in the public spaces where generations meet but rarely talk.",
+        "card_description": "The question infrastructure, built into the spaces where it's needed most."
+      }
+    },
+    "contact": {
+      "_file": "contact.html",
+      "hero": {
+        "tag": "Contact",
+        "title": "We're looking for people to build this with.",
+        "subtitle": "We're in conversation with Canadian and Korean investors, schools, education boards, and partners who believe the quality of human connection is worth engineering. If that's you — reach out."
+      },
+      "email": "contact@cammuplabs.com"
+    }
+  }
+}
